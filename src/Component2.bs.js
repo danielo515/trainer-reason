@@ -8,7 +8,19 @@ var ReasonReact = require("reason-react/src/ReasonReact.js");
 
 var component = ReasonReact.reducerComponent("Example");
 
-function make(greeting, _) {
+function countDown(amount, fn) {
+  if (amount > 0) {
+    setTimeout((function () {
+            Curry._1(fn, amount - 1 | 0);
+            return countDown(amount - 1 | 0, fn);
+          }), 1000);
+    return /* () */0;
+  } else {
+    return 0;
+  }
+}
+
+function make(exercise, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -20,22 +32,20 @@ function make(greeting, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (self) {
-              var message = "You've clicked this " + (String(self[/* state */1][/* count */0]) + " times(s)");
-              var match = self[/* state */1][/* show */1];
-              return React.createElement("div", undefined, React.createElement("button", {
+              var message = "You are training " + exercise[/* name */0];
+              return React.createElement("div", undefined, message, React.createElement("button", {
                               onClick: (function () {
-                                  return Curry._1(self[/* send */3], /* Click */0);
+                                  Curry._1(self[/* send */3], /* Complete */0);
+                                  return countDown(exercise[/* rest */3], (function (amount) {
+                                                return Curry._1(self[/* send */3], /* Rest */[amount]);
+                                              }));
                                 })
-                            }, message), React.createElement("button", {
-                              onClick: (function () {
-                                  return Curry._1(self[/* send */3], /* Toggle */1);
-                                })
-                            }, "Toggle greeting"), match ? greeting : null);
+                            }, "Done!"), "Count " + String(self[/* state */1][/* count */0]), "Rest " + String(self[/* state */1][/* rest */1]));
             }),
           /* initialState */(function () {
               return /* record */[
                       /* count */0,
-                      /* show */true
+                      /* rest */0
                     ];
             }),
           /* retainedProps */component[/* retainedProps */11],
@@ -43,12 +53,12 @@ function make(greeting, _) {
               if (action) {
                 return /* Update */Block.__(0, [/* record */[
                             /* count */state[/* count */0],
-                            /* show */!state[/* show */1]
+                            /* rest */action[0]
                           ]]);
               } else {
                 return /* Update */Block.__(0, [/* record */[
                             /* count */state[/* count */0] + 1 | 0,
-                            /* show */state[/* show */1]
+                            /* rest */exercise[/* rest */3]
                           ]]);
               }
             }),
@@ -57,5 +67,6 @@ function make(greeting, _) {
 }
 
 exports.component = component;
+exports.countDown = countDown;
 exports.make = make;
 /* component Not a pure module */

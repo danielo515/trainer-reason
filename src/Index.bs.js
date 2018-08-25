@@ -3,11 +3,42 @@
 
 var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Component1$ReactTemplate = require("./Component1.bs.js");
 var Component2$ReactTemplate = require("./Component2.bs.js");
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Component1$ReactTemplate.make("Hello!", /* array */[])), "index1");
+var entrena_puto = /* record */[
+  /* name */"Press de banca",
+  /* reps */10,
+  /* series */5,
+  /* rest */30,
+  /* completed */0
+];
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Component2$ReactTemplate.make("Hello!", /* array */[])), "index2");
+var dale_000 = /* sessions : :: */[
+  /* record */[
+    /* name */"D\xc3\xada 2",
+    /* exercises : :: */[
+      entrena_puto,
+      /* [] */0
+    ]
+  ],
+  /* [] */0
+];
 
+var dale = /* record */[
+  dale_000,
+  /* name */"Prueba",
+  /* completed */0
+];
+
+ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Component2$ReactTemplate.make(entrena_puto, /* array */[])), "index2");
+
+var puto = /* record */[
+  /* name */"Press de banca",
+  /* image */"./banca.png",
+  /* category : Torso */3
+];
+
+exports.puto = puto;
+exports.entrena_puto = entrena_puto;
+exports.dale = dale;
 /*  Not a pure module */

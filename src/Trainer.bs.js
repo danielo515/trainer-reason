@@ -82,31 +82,6 @@ var Encode = /* module */[
   /* table */table
 ];
 
-var entrena_puto = /* record */[
-  /* name */"Press de banca",
-  /* reps */10,
-  /* series */5,
-  /* rest */30,
-  /* completed */0
-];
-
-var dale_000 = /* sessions : :: */[
-  /* record */[
-    /* name */"D\xc3\xada 2",
-    /* exercises : :: */[
-      entrena_puto,
-      /* [] */0
-    ]
-  ],
-  /* [] */0
-];
-
-var dale = /* record */[
-  dale_000,
-  /* name */"Prueba",
-  /* completed */0
-];
-
 function isCompleted(exercise) {
   return exercise[/* series */2] === exercise[/* completed */4];
 }
@@ -134,6 +109,16 @@ function newExercise(name, reps, series, $staropt$star, _) {
           /* series */series,
           /* rest */rest,
           /* completed */0
+        ];
+}
+
+function serieCompleted(ex) {
+  return /* record */[
+          /* name */ex[/* name */0],
+          /* reps */ex[/* reps */1],
+          /* series */ex[/* series */2],
+          /* rest */ex[/* rest */3],
+          /* completed */ex[/* completed */4] + 1 | 0
         ];
 }
 
@@ -180,26 +165,24 @@ var emptyTable = addToSession(addToSession(addToSession(addSession(/* record */[
                 ], /* record */[
                   /* name */"No Existe",
                   /* exercises : [] */0
-                ]), "No Existe", newExercise("Press anal", 10, 5, undefined, /* () */0)), "No Existe", newExercise("Press Brutal", 8, 5, undefined, /* () */0)), "No Existe", newExercise("Press Follamigo", 8, 5, 45, /* () */0));
+                ]), "No Existe", newExercise("Press anal", 10, 5, undefined, /* () */0)), "No Existe", newExercise("Press Brutal", 8, 5, undefined, /* () */0)), "No Existe", serieCompleted(newExercise("Press Follamigo", 8, 1, 45, /* () */0)));
 
 var logDir = function (x){console.dir(x, {depth:12})};
 
 logDir(table(emptyTable));
 
-var puto = /* record */[
-  /* name */"Press de banca",
-  /* image */"./banca.png",
-  /* category : Torso */3
-];
+logDir(List.map((function (param) {
+            return List.map(isCompleted, param);
+          }), List.map((function (s) {
+                return s[/* exercises */1];
+              }), emptyTable[/* sessions */0])));
 
 exports.Encode = Encode;
-exports.puto = puto;
-exports.entrena_puto = entrena_puto;
-exports.dale = dale;
 exports.isCompleted = isCompleted;
 exports.newTable = newTable;
 exports.newSession = newSession;
 exports.newExercise = newExercise;
+exports.serieCompleted = serieCompleted;
 exports.insertExercise = insertExercise;
 exports.addToSession = addToSession;
 exports.addSession = addSession;

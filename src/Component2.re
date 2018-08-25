@@ -1,44 +1,57 @@
 /* State declaration */
 type state = {
   count: int,
-  show: bool,
+  rest: int,
 };
 
 /* Action declaration */
 type action =
-  | Click
-  | Toggle;
+  | Complete
+  | Rest(int);
 
 /* Component template declaration.
    Needs to be **after** state and action declarations! */
 let component = ReasonReact.reducerComponent("Example");
 
-/* greeting and children are props. `children` isn't used, therefore ignored.
-   We ignore it by prepending it with an underscore */
-let make = (~greeting, _children) => {
+let rec countDown = (amount, fn) =>
+  if (amount > 0) {
+    Js.Global.setTimeout(
+      () => {
+        fn(amount-1);
+        countDown(amount - 1, fn);
+      },
+      1000,
+    )
+    |> ignore;
+  };
+
+let make = (~exercise: Trainer.exercise_run, _children) => {
   /* spread the other default fields of component here and override a few */
   ...component,
-
-  initialState: () => {count: 0, show: true},
-
+  initialState: () => {count: 0, rest: 0},
   /* State transitions */
   reducer: (action, state) =>
     switch (action) {
-    | Click => ReasonReact.Update({...state, count: state.count + 1})
-    | Toggle => ReasonReact.Update({...state, show: ! state.show})
-    },
+    | Rest(amount) => ReasonReact.Update({...state, rest: amount})
 
+    | Complete =>
+      ReasonReact.Update({count: state.count + 1, rest: exercise.rest})
+    },
   render: self => {
-    let message =
-      "You've clicked this " ++ string_of_int(self.state.count) ++ " times(s)";
+    let message = "You are training " ++ exercise.name;
     <div>
-      <button onClick=(_event => self.send(Click))>
-        (ReasonReact.string(message))
+      {ReasonReact.string(message)}
+      <button
+        onClick={
+          _event => {
+            self.send(Complete);
+            countDown(exercise.rest, amount => self.send(Rest(amount)));
+          }
+        }>
+        {ReasonReact.string("Done!")}
       </button>
-      <button onClick=(_event => self.send(Toggle))>
-        (ReasonReact.string("Toggle greeting"))
-      </button>
-      (self.state.show ? ReasonReact.string(greeting) : ReasonReact.null)
+      {ReasonReact.string("Count " ++ string_of_int(self.state.count))}
+      {ReasonReact.string("Rest " ++ string_of_int(self.state.rest))}
     </div>;
   },
 };
