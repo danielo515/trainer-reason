@@ -20,7 +20,7 @@ function countDown(amount, fn) {
   }
 }
 
-function make(exercise, _) {
+function make(exercise, onComplete, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -55,10 +55,14 @@ function make(exercise, _) {
               if (action) {
                 var remaining = action[0];
                 var match = remaining === 0;
+                var resting = match ? false : true;
+                if (!resting && state[/* count */0] === exercise[/* series */2]) {
+                  Curry._1(onComplete, exercise[/* name */0]);
+                }
                 return /* Update */Block.__(0, [/* record */[
                             /* count */state[/* count */0],
                             /* rest */remaining,
-                            /* resting */match ? false : true
+                            /* resting */resting
                           ]]);
               } else {
                 return /* Update */Block.__(0, [/* record */[

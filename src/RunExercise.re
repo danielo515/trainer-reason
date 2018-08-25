@@ -2,7 +2,7 @@
 type state = {
   count: int,
   rest: int,
-  resting:bool,
+  resting: bool,
 };
 
 /* Action declaration */
@@ -18,7 +18,7 @@ let rec countDown = (amount, fn) =>
   if (amount > 0) {
     Js.Global.setTimeout(
       () => {
-        fn(amount-1);
+        fn(amount - 1);
         countDown(amount - 1, fn);
       },
       1000,
@@ -26,24 +26,33 @@ let rec countDown = (amount, fn) =>
     |> ignore;
   };
 
-let make = (~exercise: Trainer.exercise_run, _children) => {
+let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
   /* spread the other default fields of component here and override a few */
   ...component,
-  initialState: () => {count: 0, rest: 0, resting:false},
+  initialState: () => {count: 0, rest: 0, resting: false},
   /* State transitions */
   reducer: (action, state) =>
     switch (action) {
-    | Rest(remaining) => ReasonReact.Update({...state, rest: remaining, resting: remaining == 0 ? false : true})
+    | Rest(remaining) =>
+      let resting = remaining == 0 ? false : true;
+      if (!resting && state.count == exercise.series) {
+        onComplete(exercise.name);
+      };
+      ReasonReact.Update({...state, rest: remaining, resting});
 
     | Complete =>
-      ReasonReact.Update({count: state.count + 1, rest: exercise.rest, resting: true})
+      ReasonReact.Update({
+        count: state.count + 1,
+        rest: exercise.rest,
+        resting: true,
+      })
     },
   render: self => {
     let message = "You are training: " ++ exercise.name;
     <div>
       {ReasonReact.string(message)}
       <button
-        disabled=self.state.resting
+        disabled={self.state.resting}
         onClick={
           _event => {
             self.send(Complete);

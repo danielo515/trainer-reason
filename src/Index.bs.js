@@ -8,8 +8,8 @@ var RunExercise$ReactTemplate = require("./RunExercise.bs.js");
 var entrena_puto = /* record */[
   /* name */"Press de banca",
   /* reps */10,
-  /* series */5,
-  /* rest */30,
+  /* series */2,
+  /* rest */5,
   /* completed */0
 ];
 
@@ -30,7 +30,12 @@ var dale = /* record */[
   /* completed */0
 ];
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, RunExercise$ReactTemplate.make(entrena_puto, /* array */[])), "index2");
+function onComplete(name) {
+  console.log("Exercise  " + (name + "Completed!!!"));
+  return /* () */0;
+}
+
+ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, RunExercise$ReactTemplate.make(entrena_puto, onComplete, /* array */[])), "index2");
 
 var puto = /* record */[
   /* name */"Press de banca",
@@ -41,4 +46,5 @@ var puto = /* record */[
 exports.puto = puto;
 exports.entrena_puto = entrena_puto;
 exports.dale = dale;
+exports.onComplete = onComplete;
 /*  Not a pure module */

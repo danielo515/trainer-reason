@@ -4,8 +4,8 @@ let puto: Trainer.exercise_def = { name: "Press de banca", image: "./banca.png",
 let entrena_puto: Trainer.exercise_run = {
   name: "Press de banca",
   reps: 10,
-  series: 5,
-  rest: 30,
+  series: 2,
+  rest: 5,
   completed: 0,
 };
 
@@ -15,5 +15,6 @@ let dale: Trainer.table = {
   completed: 0,
 };
 
+let onComplete = name => Js.log("Exercise  "++ name ++ "Completed!!!")
 
-ReactDOMRe.renderToElementWithId(<RunExercise exercise=entrena_puto />, "index2");
+ReactDOMRe.renderToElementWithId(<RunExercise exercise=entrena_puto onComplete />, "index2");
