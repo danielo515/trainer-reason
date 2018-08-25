@@ -3,7 +3,7 @@
 
 var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Component2$ReactTemplate = require("./Component2.bs.js");
+var RunExercise$ReactTemplate = require("./RunExercise.bs.js");
 
 var entrena_puto = /* record */[
   /* name */"Press de banca",
@@ -30,7 +30,7 @@ var dale = /* record */[
   /* completed */0
 ];
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Component2$ReactTemplate.make(entrena_puto, /* array */[])), "index2");
+ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, RunExercise$ReactTemplate.make(entrena_puto, /* array */[])), "index2");
 
 var puto = /* record */[
   /* name */"Press de banca",

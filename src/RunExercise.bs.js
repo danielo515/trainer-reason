@@ -32,8 +32,9 @@ function make(exercise, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (self) {
-              var message = "You are training " + exercise[/* name */0];
+              var message = "You are training: " + exercise[/* name */0];
               return React.createElement("div", undefined, message, React.createElement("button", {
+                              disabled: self[/* state */1][/* resting */2],
                               onClick: (function () {
                                   Curry._1(self[/* send */3], /* Complete */0);
                                   return countDown(exercise[/* rest */3], (function (amount) {
@@ -45,20 +46,25 @@ function make(exercise, _) {
           /* initialState */(function () {
               return /* record */[
                       /* count */0,
-                      /* rest */0
+                      /* rest */0,
+                      /* resting */false
                     ];
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (action, state) {
               if (action) {
+                var remaining = action[0];
+                var match = remaining === 0;
                 return /* Update */Block.__(0, [/* record */[
                             /* count */state[/* count */0],
-                            /* rest */action[0]
+                            /* rest */remaining,
+                            /* resting */match ? false : true
                           ]]);
               } else {
                 return /* Update */Block.__(0, [/* record */[
                             /* count */state[/* count */0] + 1 | 0,
-                            /* rest */exercise[/* rest */3]
+                            /* rest */exercise[/* rest */3],
+                            /* resting */true
                           ]]);
               }
             }),

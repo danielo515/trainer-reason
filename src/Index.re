@@ -16,4 +16,4 @@ let dale: Trainer.table = {
 };
 
 
-ReactDOMRe.renderToElementWithId(<Component2 exercise=entrena_puto />, "index2");
+ReactDOMRe.renderToElementWithId(<RunExercise exercise=entrena_puto />, "index2");

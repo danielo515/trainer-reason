@@ -2,6 +2,7 @@
 type state = {
   count: int,
   rest: int,
+  resting:bool,
 };
 
 /* Action declaration */
@@ -28,20 +29,21 @@ let rec countDown = (amount, fn) =>
 let make = (~exercise: Trainer.exercise_run, _children) => {
   /* spread the other default fields of component here and override a few */
   ...component,
-  initialState: () => {count: 0, rest: 0},
+  initialState: () => {count: 0, rest: 0, resting:false},
   /* State transitions */
   reducer: (action, state) =>
     switch (action) {
-    | Rest(amount) => ReasonReact.Update({...state, rest: amount})
+    | Rest(remaining) => ReasonReact.Update({...state, rest: remaining, resting: remaining == 0 ? false : true})
 
     | Complete =>
-      ReasonReact.Update({count: state.count + 1, rest: exercise.rest})
+      ReasonReact.Update({count: state.count + 1, rest: exercise.rest, resting: true})
     },
   render: self => {
-    let message = "You are training " ++ exercise.name;
+    let message = "You are training: " ++ exercise.name;
     <div>
       {ReasonReact.string(message)}
       <button
+        disabled=self.state.resting
         onClick={
           _event => {
             self.send(Complete);
