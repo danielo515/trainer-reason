@@ -35,7 +35,7 @@ function update(state) {
   }
 }
 
-function make(session, _) {
+function make(session, onComplete, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -53,7 +53,11 @@ function make(session, _) {
                                   return Curry._1(self[/* send */3], /* Next */0);
                                 }), /* array */[]));
               } else {
-                return React.createElement("button", undefined, "Finish session");
+                return React.createElement("button", {
+                            onClick: (function () {
+                                return Curry._1(self[/* send */3], /* Finish */1);
+                              })
+                          }, "Finish session");
               }
             }),
           /* initialState */(function () {
@@ -65,8 +69,13 @@ function make(session, _) {
                     ];
             }),
           /* retainedProps */component[/* retainedProps */11],
-          /* reducer */(function (_, state) {
-              return /* Update */Block.__(0, [update(state)]);
+          /* reducer */(function (action, state) {
+              if (action) {
+                Curry._1(onComplete, session[/* name */0]);
+                return /* NoUpdate */0;
+              } else {
+                return /* Update */Block.__(0, [update(state)]);
+              }
             }),
           /* jsElementWrapped */component[/* jsElementWrapped */13]
         ];

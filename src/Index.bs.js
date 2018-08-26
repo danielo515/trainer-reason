@@ -43,11 +43,11 @@ var dale = /* record */[
 ];
 
 function onComplete(name) {
-  console.log("Exercise  " + (name + "Completed!!!"));
+  console.log("Session  " + (name + "Completed!!!"));
   return /* () */0;
 }
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Session$ReactTemplate.make(List.hd(dale_000), /* array */[])), "index2");
+ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Session$ReactTemplate.make(List.hd(dale_000), onComplete, /* array */[])), "index2");
 
 var puto = /* record */[
   /* name */"Press de banca",

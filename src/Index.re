@@ -26,10 +26,10 @@ let puto: Trainer.exercise_def = {
     completed: 0,
   };
 
-let onComplete = name => Js.log("Exercise  " ++ name ++ "Completed!!!");
+let onComplete = name => Js.log("Session  " ++ name ++ "Completed!!!");
 
 
 ReactDOMRe.renderToElementWithId(
-  <Session session=List.hd(dale.sessions) />,
+  <Session session=List.hd(dale.sessions) onComplete />,
   "index2",
 );

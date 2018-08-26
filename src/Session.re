@@ -13,7 +13,8 @@ type nextSlice = {
 
 /* Action declaration */
 type action =
-  | Next;
+  | Next
+  | Finish;
 
 /* Component template declaration.
    Needs to be **after** state and action declarations! */
@@ -32,7 +33,7 @@ let update = (state: state) =>
     {session, current, finished: false};
   };
 
-let make = (~session: Trainer.session, _children) => {
+let make = (~session: Trainer.session, ~onComplete, _children) => {
   ...component,
   initialState: () => {
     let {session, current} = shift(session.exercises);
@@ -41,6 +42,9 @@ let make = (~session: Trainer.session, _children) => {
   reducer: (action, state: state) =>
     switch (action) {
     | Next => ReasonReact.Update(update(state))
+    | Finish =>
+      onComplete(session.name);
+      ReasonReact.NoUpdate;
     },
   render: self =>
     !self.state.finished ?
@@ -48,5 +52,7 @@ let make = (~session: Trainer.session, _children) => {
         exercise={self.state.current}
         onComplete={_name => self.send(Next)}
       /> :
-      <button> {ReasonReact.string("Finish session")} </button>,
+      <button onClick={_ => self.send(Finish)}>
+        {ReasonReact.string("Finish session")}
+      </button>,
 };
