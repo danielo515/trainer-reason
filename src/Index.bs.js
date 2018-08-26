@@ -10,7 +10,7 @@ var entrena_puto = /* record */[
   /* name */"Press de banca",
   /* reps */10,
   /* series */2,
-  /* rest */5,
+  /* rest */2,
   /* completed */0
 ];
 
@@ -18,7 +18,7 @@ var entrena_zorra = /* record */[
   /* name */"Press de hombro",
   /* reps */10,
   /* series */2,
-  /* rest */5,
+  /* rest */2,
   /* completed */0
 ];
 

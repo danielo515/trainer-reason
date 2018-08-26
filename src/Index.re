@@ -9,14 +9,14 @@ let puto: Trainer.exercise_def = {
     name: "Press de banca",
     reps: 10,
     series: 2,
-    rest: 5,
+    rest: 2,
     completed: 0,
   };
   let entrena_zorra: Trainer.exercise_run = {
     name: "Press de hombro",
     reps: 10,
     series: 2,
-    rest: 5,
+    rest: 2,
     completed: 0,
   };
   

@@ -4,6 +4,7 @@
 var List = require("bs-platform/lib/js/list.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
+var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var RunExercise$ReactTemplate = require("./RunExercise.bs.js");
 
@@ -14,6 +15,24 @@ function shift(session) {
           /* session */List.tl(session),
           /* current */List.hd(session)
         ];
+}
+
+function update(state) {
+  var match = state[/* session */0];
+  if (match) {
+    var match$1 = shift(state[/* session */0]);
+    return /* record */[
+            /* session */match$1[/* session */0],
+            /* current */match$1[/* current */1],
+            /* finished */false
+          ];
+  } else {
+    return /* record */[
+            /* session */state[/* session */0],
+            /* current */state[/* current */1],
+            /* finished */true
+          ];
+  }
 }
 
 function make(session, _) {
@@ -28,16 +47,26 @@ function make(session, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (self) {
-              return ReasonReact.element(undefined, undefined, RunExercise$ReactTemplate.make(self[/* state */1][/* current */1], (function () {
-                                return Curry._1(self[/* send */3], /* Next */0);
-                              }), /* array */[]));
+              var match = !self[/* state */1][/* finished */2];
+              if (match) {
+                return ReasonReact.element(undefined, undefined, RunExercise$ReactTemplate.make(self[/* state */1][/* current */1], (function () {
+                                  return Curry._1(self[/* send */3], /* Next */0);
+                                }), /* array */[]));
+              } else {
+                return React.createElement("button", undefined, "Finish session");
+              }
             }),
           /* initialState */(function () {
-              return shift(session[/* exercises */1]);
+              var match = shift(session[/* exercises */1]);
+              return /* record */[
+                      /* session */match[/* session */0],
+                      /* current */match[/* current */1],
+                      /* finished */false
+                    ];
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (_, state) {
-              return /* Update */Block.__(0, [shift(state[/* session */0])]);
+              return /* Update */Block.__(0, [update(state)]);
             }),
           /* jsElementWrapped */component[/* jsElementWrapped */13]
         ];
@@ -45,5 +74,6 @@ function make(session, _) {
 
 exports.component = component;
 exports.shift = shift;
+exports.update = update;
 exports.make = make;
 /* component Not a pure module */
