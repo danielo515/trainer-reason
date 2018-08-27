@@ -1,5 +1,7 @@
 # reason-trainer
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/danielo515/trainer-reason.svg)](https://greenkeeper.io/)
+
 This is a small personal project to try ReasonMl at the same time that you build something useful.
 It is a basic app for keeping track of your training session.
 
