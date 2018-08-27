@@ -17,15 +17,18 @@ function shift(session) {
         ];
 }
 
+function extendSlice(finished, param) {
+  return /* record */[
+          /* session */param[/* session */0],
+          /* current */param[/* current */1],
+          /* finished */finished
+        ];
+}
+
 function update(state) {
-  var match = state[/* session */0];
-  if (match) {
-    var match$1 = shift(state[/* session */0]);
-    return /* record */[
-            /* session */match$1[/* session */0],
-            /* current */match$1[/* current */1],
-            /* finished */false
-          ];
+  var exercises = state[/* session */0];
+  if (exercises) {
+    return extendSlice(false, shift(exercises));
   } else {
     return /* record */[
             /* session */state[/* session */0],
@@ -40,7 +43,9 @@ function make(session, onComplete, _) {
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
           /* handedOffState */component[/* handedOffState */2],
-          /* willReceiveProps */component[/* willReceiveProps */3],
+          /* willReceiveProps */(function () {
+              return extendSlice(false, shift(session[/* exercises */1]));
+            }),
           /* didMount */component[/* didMount */4],
           /* didUpdate */component[/* didUpdate */5],
           /* willUnmount */component[/* willUnmount */6],
@@ -61,12 +66,7 @@ function make(session, onComplete, _) {
               }
             }),
           /* initialState */(function () {
-              var match = shift(session[/* exercises */1]);
-              return /* record */[
-                      /* session */match[/* session */0],
-                      /* current */match[/* current */1],
-                      /* finished */false
-                    ];
+              return extendSlice(false, shift(session[/* exercises */1]));
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (action, state) {
@@ -83,6 +83,7 @@ function make(session, onComplete, _) {
 
 exports.component = component;
 exports.shift = shift;
+exports.extendSlice = extendSlice;
 exports.update = update;
 exports.make = make;
 /* component Not a pure module */
