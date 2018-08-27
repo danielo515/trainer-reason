@@ -1,5 +1,8 @@
 # reason-trainer
 
+This is a small personal project to try ReasonMl at the same time that you build something useful.
+It is a basic app for keeping track of your training session.
+
 ## Run Project
 
 ```sh
