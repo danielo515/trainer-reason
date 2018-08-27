@@ -8,16 +8,16 @@ var Table$ReactTemplate = require("./Table.bs.js");
 var entrena_puto = /* record */[
   /* name */"Press de banca",
   /* reps */10,
-  /* series */2,
-  /* rest */2,
+  /* series */1,
+  /* rest */3,
   /* completed */0
 ];
 
 var entrena_zorra = /* record */[
   /* name */"Press de hombro",
-  /* reps */10,
+  /* reps */11,
   /* series */2,
-  /* rest */2,
+  /* rest */1,
   /* completed */0
 ];
 

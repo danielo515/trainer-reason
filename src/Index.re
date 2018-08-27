@@ -7,15 +7,15 @@ let puto: Trainer.exercise_def = {
 let entrena_puto: Trainer.exercise_run = {
   name: "Press de banca",
   reps: 10,
-  series: 2,
-  rest: 2,
+  series: 1,
+  rest: 3,
   completed: 0,
 };
 let entrena_zorra: Trainer.exercise_run = {
   name: "Press de hombro",
-  reps: 10,
+  reps: 11,
   series: 2,
-  rest: 2,
+  rest: 1,
   completed: 0,
 };
 
