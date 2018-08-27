@@ -25,20 +25,18 @@ let shift = (session: exercisesList) => {
   current: List.hd(session),
 };
 
+let extendSlice = (finished, {session, current}) :state=> {finished,session,current}
+
 let update = (state: state) =>
   switch (state.session) {
   | [] => {...state, finished: true}
-  | _ =>
-    let {session, current} = shift(state.session);
-    {session, current, finished: false};
+  | exercises => shift(exercises) |> extendSlice (false)
   };
 
 let make = (~session: Trainer.session, ~onComplete, _children) => {
   ...component,
-  initialState: () => {
-    let {session, current} = shift(session.exercises);
-    {current, session, finished: false};
-  },
+  initialState: () => shift(session.exercises) |> extendSlice (false) ,
+  willReceiveProps: _self => shift(session.exercises) |> extendSlice (false), 
   reducer: (action, state: state) =>
     switch (action) {
     | Next => ReasonReact.Update(update(state))
