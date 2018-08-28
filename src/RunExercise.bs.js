@@ -20,19 +20,22 @@ function countDown(amount, fn) {
   }
 }
 
+function initialState(param) {
+  return /* record */[
+          /* count */0,
+          /* rest */param[/* rest */3],
+          /* resting */false,
+          /* finished */false
+        ];
+}
+
 function make(exercise, onComplete, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
           /* handedOffState */component[/* handedOffState */2],
-          /* willReceiveProps */(function (self) {
-              var init = self[/* state */1];
-              return /* record */[
-                      /* count */0,
-                      /* rest */init[/* rest */1],
-                      /* resting */init[/* resting */2],
-                      /* finished */init[/* finished */3]
-                    ];
+          /* willReceiveProps */(function () {
+              return initialState(exercise);
             }),
           /* didMount */component[/* didMount */4],
           /* didUpdate */component[/* didUpdate */5],
@@ -64,12 +67,7 @@ function make(exercise, onComplete, _) {
               return React.createElement("div", undefined, message, tmp, React.createElement("br", undefined), "Count " + String(self[/* state */1][/* count */0]), React.createElement("br", undefined), "Rest " + String(self[/* state */1][/* rest */1]), React.createElement("br", undefined), "Remaining " + String(exercise[/* series */2] - self[/* state */1][/* count */0] | 0));
             }),
           /* initialState */(function () {
-              return /* record */[
-                      /* count */0,
-                      /* rest */0,
-                      /* resting */false,
-                      /* finished */false
-                    ];
+              return initialState(exercise);
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (action, state) {
@@ -109,5 +107,6 @@ function make(exercise, onComplete, _) {
 
 exports.component = component;
 exports.countDown = countDown;
+exports.initialState = initialState;
 exports.make = make;
 /* component Not a pure module */

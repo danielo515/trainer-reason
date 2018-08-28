@@ -28,10 +28,12 @@ let rec countDown = (amount, fn) =>
     |> ignore;
   };
 
+let initialState = ({rest} : Trainer.exercise_run) => {count: 0, rest, resting: false, finished: false}
+
 let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
   ...component,
-  initialState: () => {count: 0, rest: 0, resting: false, finished: false},
-  willReceiveProps: self => {...self.state, count: 0}, /* Reset the count on exercise update */
+  initialState: () => initialState(exercise),
+  willReceiveProps: _self => initialState(exercise), /* Reset the count on exercise update */
   reducer: (action, state) =>
     switch (action) {
     | Rest(remaining) =>
