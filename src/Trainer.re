@@ -4,6 +4,8 @@ type bodyPart =
   | Shoulders
   | Torso;
 
+type series = list(int);
+
 type exercise_def = {
   name: string,
   image: string,
@@ -12,7 +14,7 @@ type exercise_def = {
 
 type exercise_run = {
   name: string,
-  series: list(int),
+  series,
   rest: int,
   completed: int,
 };
