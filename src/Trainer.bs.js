@@ -12,26 +12,22 @@ function exercise(param) {
               ],
               /* :: */[
                 /* tuple */[
-                  "reps",
-                  param[/* reps */1]
+                  "rest",
+                  param[/* rest */2]
                 ],
                 /* :: */[
                   /* tuple */[
-                    "rest",
-                    param[/* rest */3]
+                    "series",
+                    Json_encode.list((function (prim) {
+                            return prim;
+                          }), param[/* series */1])
                   ],
                   /* :: */[
                     /* tuple */[
-                      "series",
-                      param[/* series */2]
+                      "completed",
+                      param[/* completed */3]
                     ],
-                    /* :: */[
-                      /* tuple */[
-                        "completed",
-                        param[/* completed */4]
-                      ],
-                      /* [] */0
-                    ]
+                    /* [] */0
                   ]
                 ]
               ]
@@ -83,7 +79,7 @@ var Encode = /* module */[
 ];
 
 function isCompleted(exercise) {
-  return exercise[/* series */2] === exercise[/* completed */4];
+  return List.length(exercise[/* series */1]) === exercise[/* completed */3];
 }
 
 function newTable(name) {
@@ -101,11 +97,10 @@ function newSession(name) {
         ];
 }
 
-function newExercise(name, reps, series, $staropt$star, _) {
+function newExercise(name, series, $staropt$star, _) {
   var rest = $staropt$star !== undefined ? $staropt$star : 30;
   return /* record */[
           /* name */name,
-          /* reps */reps,
           /* series */series,
           /* rest */rest,
           /* completed */0
@@ -115,10 +110,9 @@ function newExercise(name, reps, series, $staropt$star, _) {
 function serieCompleted(ex) {
   return /* record */[
           /* name */ex[/* name */0],
-          /* reps */ex[/* reps */1],
-          /* series */ex[/* series */2],
-          /* rest */ex[/* rest */3],
-          /* completed */ex[/* completed */4] + 1 | 0
+          /* series */ex[/* series */1],
+          /* rest */ex[/* rest */2],
+          /* completed */ex[/* completed */3] + 1 | 0
         ];
 }
 
@@ -158,25 +152,6 @@ function addSession(table, session) {
         ];
 }
 
-var emptyTable = addToSession(addToSession(addToSession(addSession(/* record */[
-                  /* sessions : [] */0,
-                  /* name */"Rabo",
-                  /* completed */0
-                ], /* record */[
-                  /* name */"No Existe",
-                  /* exercises : [] */0
-                ]), "No Existe", newExercise("Press anal", 10, 5, undefined, /* () */0)), "No Existe", newExercise("Press Brutal", 8, 5, undefined, /* () */0)), "No Existe", serieCompleted(newExercise("Press Follamigo", 8, 1, 45, /* () */0)));
-
-var logDir = function (x){console.dir(x, {depth:12})};
-
-logDir(table(emptyTable));
-
-logDir(List.map((function (param) {
-            return List.map(isCompleted, param);
-          }), List.map((function (s) {
-                return s[/* exercises */1];
-              }), emptyTable[/* sessions */0])));
-
 exports.Encode = Encode;
 exports.isCompleted = isCompleted;
 exports.newTable = newTable;
@@ -186,6 +161,4 @@ exports.serieCompleted = serieCompleted;
 exports.insertExercise = insertExercise;
 exports.addToSession = addToSession;
 exports.addSession = addSession;
-exports.emptyTable = emptyTable;
-exports.logDir = logDir;
-/* emptyTable Not a pure module */
+/* Json_encode Not a pure module */

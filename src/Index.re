@@ -4,17 +4,15 @@ let puto: Trainer.exercise_def = {
   category: Torso,
 };
 
-let entrena_puto: Trainer.exercise_run = {
+let press_banca: Trainer.exercise_run = {
   name: "Press de banca",
-  reps: 10,
-  series: 1,
+  series: [10,8,8,6,6],
   rest: 3,
   completed: 0,
 };
-let entrena_zorra: Trainer.exercise_run = {
+let press_hombro: Trainer.exercise_run = {
   name: "Press de hombro",
-  reps: 11,
-  series: 2,
+  series: [10,10,8,8,6],
   rest: 1,
   completed: 0,
 };
@@ -22,8 +20,8 @@ let entrena_zorra: Trainer.exercise_run = {
 let dale: Trainer.table = {
   name: "Prueba",
   sessions: [
-    {name: "Day 1", exercises: [entrena_zorra]},
-    {name: "Day 2", exercises: [entrena_puto, entrena_zorra]},
+    {name: "Day 1", exercises: [press_hombro]},
+    {name: "Day 2", exercises: [press_banca, press_hombro]},
   ],
   completed: 0,
 };

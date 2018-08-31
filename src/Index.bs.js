@@ -5,18 +5,46 @@ var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Table$ReactTemplate = require("./Table.bs.js");
 
-var entrena_puto = /* record */[
+var press_banca = /* record */[
   /* name */"Press de banca",
-  /* reps */10,
-  /* series */1,
+  /* series : :: */[
+    10,
+    /* :: */[
+      8,
+      /* :: */[
+        8,
+        /* :: */[
+          6,
+          /* :: */[
+            6,
+            /* [] */0
+          ]
+        ]
+      ]
+    ]
+  ],
   /* rest */3,
   /* completed */0
 ];
 
-var entrena_zorra = /* record */[
+var press_hombro = /* record */[
   /* name */"Press de hombro",
-  /* reps */11,
-  /* series */2,
+  /* series : :: */[
+    10,
+    /* :: */[
+      10,
+      /* :: */[
+        8,
+        /* :: */[
+          8,
+          /* :: */[
+            6,
+            /* [] */0
+          ]
+        ]
+      ]
+    ]
+  ],
   /* rest */1,
   /* completed */0
 ];
@@ -25,7 +53,7 @@ var dale_000 = /* sessions : :: */[
   /* record */[
     /* name */"Day 1",
     /* exercises : :: */[
-      entrena_zorra,
+      press_hombro,
       /* [] */0
     ]
   ],
@@ -33,9 +61,9 @@ var dale_000 = /* sessions : :: */[
     /* record */[
       /* name */"Day 2",
       /* exercises : :: */[
-        entrena_puto,
+        press_banca,
         /* :: */[
-          entrena_zorra,
+          press_hombro,
           /* [] */0
         ]
       ]
@@ -64,8 +92,8 @@ var puto = /* record */[
 ];
 
 exports.puto = puto;
-exports.entrena_puto = entrena_puto;
-exports.entrena_zorra = entrena_zorra;
+exports.press_banca = press_banca;
+exports.press_hombro = press_hombro;
 exports.dale = dale;
 exports.onComplete = onComplete;
 /*  Not a pure module */

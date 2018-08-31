@@ -12,8 +12,7 @@ type exercise_def = {
 
 type exercise_run = {
   name: string,
-  reps: int,
-  series: int,
+  series: list(int),
   rest: int,
   completed: int,
 };
@@ -31,12 +30,11 @@ type table = {
 
 module Encode = {
   open Json_encode;
-  let exercise = ({name, reps, series, rest, completed}: exercise_run) =>
+  let exercise = ({name, series, rest, completed}: exercise_run) =>
     object_([
       ("name", string(name)),
-      ("reps", int(reps)),
       ("rest", int(rest)),
-      ("series", int(series)),
+      ("series", list(int,series)),
       ("completed", int(completed)),
     ]);
 
@@ -54,15 +52,14 @@ module Encode = {
     ]);
 };
 
-let isCompleted = exercise => exercise.series == exercise.completed;
+let isCompleted = exercise => List.length(exercise.series) == exercise.completed;
 
 let newTable = name: table => {name, sessions: [], completed: 0};
 
 let newSession = name: session => {name, exercises: []};
 
-let newExercise = (~name, ~reps, ~series, ~rest=30, ()) => {
+let newExercise = (~name, ~series, ~rest=30, ()) => {
   name,
-  reps,
   series,
   rest,
   completed: 0,
@@ -91,20 +88,20 @@ let addSession = (table, session) => {
   sessions: [session, ...table.sessions],
 };
 
-let emptyTable =
+/* let emptyTable =
   newTable("Rabo")
   ->addSession({name: "No Existe", exercises: []})
   ->addToSession(
       "No Existe",
-      newExercise(~name="Press anal", ~reps=10, ~series=5, ()),
+      newExercise(~name="Press anal",  ~series=[10,8,8,6,6], ()),
     )
   ->addToSession(
       "No Existe",
-      newExercise(~name="Press Brutal", ~reps=8, ~series=5, ()),
+      newExercise(~name="Press Brutal", ~series=[10,10,8,6,6], ()),
     )
   ->addToSession(
       "No Existe",
-      (newExercise(~name="Press Follamigo", ~reps=8, ~series=1, ~rest=45, ()) |> serieCompleted),
+      (newExercise(~name="Press Follamigo", ~series=[10,10,8,8,6], ~rest=45, ()) |> serieCompleted),
     );
 
 let logDir = [%raw x => "console.dir(x, {depth:12})"];
@@ -115,5 +112,5 @@ logDir(
   emptyTable.sessions
   |> List.map(s => s.exercises)
   |> List.map(isCompleted)->List.map,
-);
+); */
 

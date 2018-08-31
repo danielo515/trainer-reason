@@ -2,6 +2,8 @@
 type state = {
   count: int,
   rest: int,
+  reps: int,
+  series: list(int),
   resting: bool,
   finished: bool,
 };
@@ -28,7 +30,14 @@ let rec countDown = (amount, fn) =>
     |> ignore;
   };
 
-let initialState = ({rest} : Trainer.exercise_run) => {count: 0, rest, resting: false, finished: false}
+let initialState = ({rest, series}: Trainer.exercise_run) => {
+  count: 0,
+  rest,
+  resting: false,
+  finished: false,
+  series: List.tl(series),
+  reps: List.hd(series),
+};
 
 let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
   ...component,
@@ -38,7 +47,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
     switch (action) {
     | Rest(remaining) =>
       let resting = remaining != 0;
-      let completed = state.count == exercise.series;
+      let completed = List.length(state.series) == 0;
       let finished = !resting && completed;
       ReasonReact.Update({...state, rest: remaining, resting, finished});
 
@@ -46,20 +55,27 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
       ReasonReact.Update({
         ...state,
         count: state.count + 1,
+        series: List.tl(state.series),
+        reps: List.hd(state.series),
         rest: exercise.rest,
         resting: true,
       })
     | Finish =>
       onComplete(exercise.name);
-      ReasonReact.Update({...state, count: 0, resting: false, finished: false});
+      ReasonReact.Update({
+        ...state,
+        count: 0,
+        resting: false,
+        finished: false,
+      });
     },
   render: self => {
     let message = "You are training: " ++ exercise.name;
     <div>
       {ReasonReact.string(message)}
       {
-        !self.state.finished 
-        ? <button
+        !self.state.finished ?
+          <button
             disabled={self.state.resting}
             onClick={
               _event => {
@@ -68,14 +84,23 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
               }
             }>
             {ReasonReact.string(self.state.resting ? "Resting..." : "Done!")}
-          </button> 
-        : <button onClick={_e => self.send(Finish)}>
+          </button> :
+          <button onClick={_e => self.send(Finish)}>
             {ReasonReact.string("Next Exercise!")}
           </button>
-      }<br></br>
-      {ReasonReact.string("Count " ++ string_of_int(self.state.count))}<br></br>
-      {ReasonReact.string("Rest " ++ string_of_int(self.state.rest))}<br></br>
-      {ReasonReact.string("Remaining " ++ string_of_int(exercise.series - self.state.count ))}
+      }
+      <br />
+      {ReasonReact.string("Count " ++ string_of_int(self.state.count))}
+      <br />
+      {ReasonReact.string("Rest " ++ string_of_int(self.state.rest))}
+      <br />
+      {ReasonReact.string("REPS " ++ string_of_int(self.state.reps))}
+      <br />
+      {
+        ReasonReact.string(
+          "Remaining " ++ string_of_int(List.length(self.state.series)),
+        )
+      }
     </div>;
   },
 };
