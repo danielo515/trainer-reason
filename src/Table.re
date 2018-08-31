@@ -1,5 +1,9 @@
+type curSession =
+  | NotSelected
+  | Selected(Trainer.session);
+
 type state = {
-  session: Trainer.session,
+  session: curSession,
   sessions: list(Trainer.session),
 };
 
@@ -16,30 +20,33 @@ let listed = (fn, list) =>
   ReasonReact.array(Array.of_list(List.map(fn, list)));
 let text = str => ReasonReact.string(str);
 
+let listSessions = (sessions, onClick) =>
+  sessions
+  |> listed((session: Trainer.session) =>
+       <button key={session.name} onClick={_ => onClick(session)}>
+         {text(session.name)}
+       </button>
+     );
+
 let make = (~table: Trainer.table, _children) => {
   ...component,
-  initialState: () => {
-    session: List.hd(table.sessions),
-    sessions: table.sessions,
-  },
+  initialState: () => {session: NotSelected, sessions: table.sessions},
   reducer: (action, state: state) =>
     switch (action) {
-    | Select(session) => Js.log(session); ReasonReact.Update({...state, session})
-    | Finish => ReasonReact.NoUpdate
+    | Select(session) =>
+      Js.log(session);
+      ReasonReact.Update({...state, session: Selected(session)});
+    | Finish => ReasonReact.Update({...state, session: NotSelected})
     },
   render: self =>
     <div>
       {
-        listed(
-          (session: Trainer.session) =>
-            <button
-              key={session.name}
-              onClick={_ => self.send(Select(session))}>
-              {text(session.name)}
-            </button>,
-          table.sessions,
-        )
+        switch (self.state.session) {
+        | Selected(session) =>
+          <Session session onComplete=(_ => self.send(Finish)) />
+        | NotSelected =>
+          listSessions(table.sessions, session => self.send(Select(session)))
+        }
       }
-      <Session session=self.state.session onComplete=Js.log/>
     </div>,
 };

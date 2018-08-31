@@ -19,6 +19,17 @@ function text(str) {
   return str;
 }
 
+function listSessions(sessions, onClick) {
+  return $$Array.of_list(List.map((function (session) {
+                    return React.createElement("button", {
+                                key: session[/* name */0],
+                                onClick: (function () {
+                                    return Curry._1(onClick, session);
+                                  })
+                              }, session[/* name */0]);
+                  }), sessions));
+}
+
 function make(table, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
@@ -31,21 +42,16 @@ function make(table, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (self) {
-              return React.createElement("div", undefined, $$Array.of_list(List.map((function (session) {
-                                    return React.createElement("button", {
-                                                key: session[/* name */0],
-                                                onClick: (function () {
-                                                    return Curry._1(self[/* send */3], /* Select */[session]);
-                                                  })
-                                              }, session[/* name */0]);
-                                  }), table[/* sessions */0])), ReasonReact.element(undefined, undefined, Session$ReactTemplate.make(self[/* state */1][/* session */0], (function (prim) {
-                                    console.log(prim);
-                                    return /* () */0;
-                                  }), /* array */[])));
+              var match = self[/* state */1][/* session */0];
+              return React.createElement("div", undefined, match ? ReasonReact.element(undefined, undefined, Session$ReactTemplate.make(match[0], (function () {
+                                      return Curry._1(self[/* send */3], /* Finish */0);
+                                    }), /* array */[])) : listSessions(table[/* sessions */0], (function (session) {
+                                  return Curry._1(self[/* send */3], /* Select */[session]);
+                                })));
             }),
           /* initialState */(function () {
               return /* record */[
-                      /* session */List.hd(table[/* sessions */0]),
+                      /* session : NotSelected */0,
                       /* sessions */table[/* sessions */0]
                     ];
             }),
@@ -55,11 +61,14 @@ function make(table, _) {
                 var session = action[0];
                 console.log(session);
                 return /* Update */Block.__(0, [/* record */[
-                            /* session */session,
+                            /* session : Selected */[session],
                             /* sessions */state[/* sessions */1]
                           ]]);
               } else {
-                return /* NoUpdate */0;
+                return /* Update */Block.__(0, [/* record */[
+                            /* session : NotSelected */0,
+                            /* sessions */state[/* sessions */1]
+                          ]]);
               }
             }),
           /* jsElementWrapped */component[/* jsElementWrapped */13]
@@ -69,5 +78,6 @@ function make(table, _) {
 exports.component = component;
 exports.listed = listed;
 exports.text = text;
+exports.listSessions = listSessions;
 exports.make = make;
 /* component Not a pure module */
