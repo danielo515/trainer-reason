@@ -8,7 +8,7 @@ let make = (~items: list(int), ~index: int, _children) => {
       {
         List.mapi(
           (idx, item) =>
-            <span key=string_of_int(idx) className={"tag " ++ (idx == index ? "is-primary" : "is-light")}>
+            <span key=string_of_int(idx) className={"tag is-large " ++ (idx == index ? "is-primary" : "is-light")}>
               {item |> string_of_int |> Util.text}
             </span>,
           items,

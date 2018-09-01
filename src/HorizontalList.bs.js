@@ -26,7 +26,7 @@ function make(items, index, _) {
                                     var match = idx === index;
                                     return React.createElement("span", {
                                                 key: String(idx),
-                                                className: "tag " + (
+                                                className: "tag is-large " + (
                                                   match ? "is-primary" : "is-light"
                                                 )
                                               }, Util$ReactTemplate.text(String(item)));
