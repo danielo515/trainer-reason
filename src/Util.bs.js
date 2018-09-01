@@ -10,11 +10,16 @@ function text(str) {
   return str;
 }
 
+function textInt(i) {
+  return String(i);
+}
+
 function listToComponent(fn, list) {
   return $$Array.of_list(List.map(fn, list));
 }
 
 exports.componentFromList = componentFromList;
 exports.text = text;
+exports.textInt = textInt;
 exports.listToComponent = listToComponent;
 /* No side effect */

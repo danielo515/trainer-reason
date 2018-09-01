@@ -92,7 +92,8 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
       <br />
       {ReasonReact.string("Count " ++ string_of_int(self.state.count))}
       <br />
-      {ReasonReact.string("Rest " ++ string_of_int(self.state.rest))}
+      {ReasonReact.string("Rest ")}
+      <progress className="progress is-primary is-large" value=string_of_int(self.state.rest) max=string_of_int(exercise.rest)>(Util.textInt (self.state.rest))</progress>
       <br />
       {ReasonReact.string("REPS " ++ string_of_int(self.state.reps))}
       <HorizontalList items=exercise.series index=self.state.count/>

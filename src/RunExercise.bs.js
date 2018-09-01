@@ -6,6 +6,7 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
+var Util$ReactTemplate = require("./Util.bs.js");
 var HorizontalList$ReactTemplate = require("./HorizontalList.bs.js");
 
 var component = ReasonReact.reducerComponent("Example");
@@ -71,7 +72,11 @@ function make(exercise, onComplete, _) {
                         })
                     }, "Next Exercise!");
               }
-              return React.createElement("div", undefined, React.createElement("span", undefined, message), tmp, React.createElement("br", undefined), "Count " + String(self[/* state */1][/* count */0]), React.createElement("br", undefined), "Rest " + String(self[/* state */1][/* rest */1]), React.createElement("br", undefined), "REPS " + String(self[/* state */1][/* reps */2]), ReasonReact.element(undefined, undefined, HorizontalList$ReactTemplate.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), React.createElement("br", undefined), "Remaining " + String(List.length(self[/* state */1][/* series */3])));
+              return React.createElement("div", undefined, React.createElement("span", undefined, message), tmp, React.createElement("br", undefined), "Count " + String(self[/* state */1][/* count */0]), React.createElement("br", undefined), "Rest ", React.createElement("progress", {
+                              className: "progress is-primary is-large",
+                              max: String(exercise[/* rest */2]),
+                              value: String(self[/* state */1][/* rest */1])
+                            }, Util$ReactTemplate.textInt(self[/* state */1][/* rest */1])), React.createElement("br", undefined), "REPS " + String(self[/* state */1][/* reps */2]), ReasonReact.element(undefined, undefined, HorizontalList$ReactTemplate.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), React.createElement("br", undefined), "Remaining " + String(List.length(self[/* state */1][/* series */3])));
             }),
           /* initialState */(function () {
               return initialState(exercise);
