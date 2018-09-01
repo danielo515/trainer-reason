@@ -62,9 +62,9 @@ function make(exercise, onComplete, _) {
               switch (action) {
                 case 0 : 
                     return /* Update */Block.__(0, [/* record */[
-                                /* count */state[/* count */0] + 1 | 0,
-                                /* reps */List.hd(state[/* series */2]),
-                                /* series */List.tl(state[/* series */2]),
+                                /* count */state[/* count */0],
+                                /* reps */state[/* reps */1],
+                                /* series */state[/* series */2],
                                 /* resting */true,
                                 /* finished */state[/* finished */4]
                               ]]);
@@ -78,13 +78,13 @@ function make(exercise, onComplete, _) {
                                 /* finished */false
                               ]]);
                 case 2 : 
-                    var completed = List.length(state[/* series */2]) === 0;
+                    var finished = List.length(state[/* series */2]) === 0;
                     return /* Update */Block.__(0, [/* record */[
-                                /* count */state[/* count */0],
-                                /* reps */state[/* reps */1],
-                                /* series */state[/* series */2],
+                                /* count */state[/* count */0] + 1 | 0,
+                                /* reps */finished ? state[/* reps */1] : List.hd(state[/* series */2]),
+                                /* series */finished ? state[/* series */2] : List.tl(state[/* series */2]),
                                 /* resting */false,
-                                /* finished */completed
+                                /* finished */finished
                               ]]);
                 
               }

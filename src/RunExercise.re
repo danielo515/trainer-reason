@@ -30,17 +30,16 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
   reducer: (action, state) =>
     switch (action) {
     | RestFinish =>
-      let completed = List.length(state.series) == 0;
-      ReasonReact.Update({...state, resting: false, finished: completed});
-
-    | Complete =>
+      let finished = List.length(state.series) == 0;
       ReasonReact.Update({
-        ...state,
+        resting: false,
+        finished,
         count: state.count + 1,
-        series: List.tl(state.series),
-        reps: List.hd(state.series),
-        resting: true,
-      })
+        series:  finished ? state.series : List.tl(state.series),
+        reps: finished ? state.reps : List.hd(state.series),
+      });
+
+    | Complete => ReasonReact.Update({...state, resting: true})
     | Finish =>
       onComplete(exercise.name);
       ReasonReact.Update({
