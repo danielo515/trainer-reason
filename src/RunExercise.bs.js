@@ -6,10 +6,11 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
+var Button$ReactTemplate = require("./Button.bs.js");
 var CountDown$ReactTemplate = require("./CountDown.bs.js");
 var HorizontalList$ReactTemplate = require("./HorizontalList.bs.js");
 
-var component = ReasonReact.reducerComponent("Example");
+var component = ReasonReact.reducerComponent("Exercise");
 
 function initialState(param) {
   var series = param[/* series */1];
@@ -41,20 +42,13 @@ function make(exercise, onComplete, _) {
               var tmp;
               if (match) {
                 var match$1 = self[/* state */1][/* resting */3];
-                tmp = React.createElement("button", {
-                      className: "button is-primary is-fullwidth",
-                      disabled: self[/* state */1][/* resting */3],
-                      onClick: (function () {
-                          return Curry._1(self[/* send */3], /* Complete */0);
-                        })
-                    }, match$1 ? "Resting..." : "Done!");
+                tmp = ReasonReact.element(undefined, undefined, Button$ReactTemplate.make((function () {
+                            return Curry._1(self[/* send */3], /* Complete */0);
+                          }), self[/* state */1][/* resting */3], match$1 ? "Resting..." : "Done!", /* array */[]));
               } else {
-                tmp = React.createElement("button", {
-                      className: "button is-primary",
-                      onClick: (function () {
-                          return Curry._1(self[/* send */3], /* Finish */1);
-                        })
-                    }, "Next Exercise!");
+                tmp = ReasonReact.element(undefined, undefined, Button$ReactTemplate.make((function () {
+                            return Curry._1(self[/* send */3], /* Finish */1);
+                          }), false, "Next Exercise!", /* array */[]));
               }
               return React.createElement("div", undefined, React.createElement("span", undefined, message), tmp, React.createElement("br", undefined), "Count " + String(self[/* state */1][/* count */0]), React.createElement("br", undefined), "Rest ", ReasonReact.element(undefined, undefined, CountDown$ReactTemplate.make(exercise[/* rest */2], self[/* state */1][/* resting */3], (function () {
                                     return Curry._1(self[/* send */3], /* RestFinish */2);

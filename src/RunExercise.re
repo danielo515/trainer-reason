@@ -13,7 +13,7 @@ type action =
   | Finish
   | RestFinish;
 
-let component = ReasonReact.reducerComponent("Example");
+let component = ReasonReact.reducerComponent("Exercise");
 
 let initialState = ({series}: Trainer.exercise_run) => {
   count: 0,
@@ -31,7 +31,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
     switch (action) {
     | RestFinish =>
       let completed = List.length(state.series) == 0;
-      ReasonReact.Update({...state, resting:false, finished: completed});
+      ReasonReact.Update({...state, resting: false, finished: completed});
 
     | Complete =>
       ReasonReact.Update({
@@ -53,30 +53,32 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
   render: self => {
     let message = "You are training: " ++ exercise.name;
     <div>
-      <span>{ReasonReact.string(message)}</span>
+      <span> {ReasonReact.string(message)} </span>
       {
         !self.state.finished ?
-          <button className="button is-primary is-fullwidth"
+          <Button
             disabled={self.state.resting}
-            onClick={
-              _event => {
-                self.send(Complete);
-              }
-            }>
-            {ReasonReact.string(self.state.resting ? "Resting..." : "Done!")}
-          </button> :
-          <button className="button is-primary" onClick={_e => self.send(Finish)}>
-            {ReasonReact.string("Next Exercise!")}
-          </button>
+            onClick={_event => self.send(Complete)}
+            text={self.state.resting ? "Resting..." : "Done!"}
+          /> :
+          <Button
+            disabled=false
+            onClick={_e => self.send(Finish)}
+            text="Next Exercise!"
+          />
       }
       <br />
       {ReasonReact.string("Count " ++ string_of_int(self.state.count))}
       <br />
       {ReasonReact.string("Rest ")}
-      <CountDown time=exercise.rest running=self.state.resting onFinish=(_=> self.send(RestFinish)) />
+      <CountDown
+        time={exercise.rest}
+        running={self.state.resting}
+        onFinish={_ => self.send(RestFinish)}
+      />
       <br />
       {ReasonReact.string("REPS " ++ string_of_int(self.state.reps))}
-      <HorizontalList items=exercise.series index=self.state.count/>
+      <HorizontalList items={exercise.series} index={self.state.count} />
       <br />
       {
         ReasonReact.string(
