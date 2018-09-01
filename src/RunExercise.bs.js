@@ -6,28 +6,15 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Util$ReactTemplate = require("./Util.bs.js");
+var CountDown$ReactTemplate = require("./CountDown.bs.js");
 var HorizontalList$ReactTemplate = require("./HorizontalList.bs.js");
 
 var component = ReasonReact.reducerComponent("Example");
-
-function countDown(amount, fn) {
-  if (amount > 0) {
-    setTimeout((function () {
-            Curry._1(fn, amount - 1 | 0);
-            return countDown(amount - 1 | 0, fn);
-          }), 1000);
-    return /* () */0;
-  } else {
-    return 0;
-  }
-}
 
 function initialState(param) {
   var series = param[/* series */1];
   return /* record */[
           /* count */0,
-          /* rest */param[/* rest */2],
           /* reps */List.hd(series),
           /* series */List.tl(series),
           /* resting */false,
@@ -50,18 +37,15 @@ function make(exercise, onComplete, _) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (self) {
               var message = "You are training: " + exercise[/* name */0];
-              var match = !self[/* state */1][/* finished */5];
+              var match = !self[/* state */1][/* finished */4];
               var tmp;
               if (match) {
-                var match$1 = self[/* state */1][/* resting */4];
+                var match$1 = self[/* state */1][/* resting */3];
                 tmp = React.createElement("button", {
                       className: "button is-primary is-fullwidth",
-                      disabled: self[/* state */1][/* resting */4],
+                      disabled: self[/* state */1][/* resting */3],
                       onClick: (function () {
-                          Curry._1(self[/* send */3], /* Complete */0);
-                          return countDown(exercise[/* rest */2], (function (amount) {
-                                        return Curry._1(self[/* send */3], /* Rest */[amount]);
-                                      }));
+                          return Curry._1(self[/* send */3], /* Complete */0);
                         })
                     }, match$1 ? "Resting..." : "Done!");
               } else {
@@ -72,51 +56,43 @@ function make(exercise, onComplete, _) {
                         })
                     }, "Next Exercise!");
               }
-              return React.createElement("div", undefined, React.createElement("span", undefined, message), tmp, React.createElement("br", undefined), "Count " + String(self[/* state */1][/* count */0]), React.createElement("br", undefined), "Rest ", React.createElement("progress", {
-                              className: "progress is-primary is-large",
-                              max: String(exercise[/* rest */2]),
-                              value: String(self[/* state */1][/* rest */1])
-                            }, Util$ReactTemplate.textInt(self[/* state */1][/* rest */1])), React.createElement("br", undefined), "REPS " + String(self[/* state */1][/* reps */2]), ReasonReact.element(undefined, undefined, HorizontalList$ReactTemplate.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), React.createElement("br", undefined), "Remaining " + String(List.length(self[/* state */1][/* series */3])));
+              return React.createElement("div", undefined, React.createElement("span", undefined, message), tmp, React.createElement("br", undefined), "Count " + String(self[/* state */1][/* count */0]), React.createElement("br", undefined), "Rest ", ReasonReact.element(undefined, undefined, CountDown$ReactTemplate.make(exercise[/* rest */2], self[/* state */1][/* resting */3], (function () {
+                                    return Curry._1(self[/* send */3], /* RestFinish */2);
+                                  }), /* array */[])), React.createElement("br", undefined), "REPS " + String(self[/* state */1][/* reps */1]), ReasonReact.element(undefined, undefined, HorizontalList$ReactTemplate.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), React.createElement("br", undefined), "Remaining " + String(List.length(self[/* state */1][/* series */2])));
             }),
           /* initialState */(function () {
               return initialState(exercise);
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (action, state) {
-              if (typeof action === "number") {
-                if (action !== 0) {
-                  Curry._1(onComplete, exercise[/* name */0]);
-                  return /* Update */Block.__(0, [/* record */[
-                              /* count */0,
-                              /* rest */state[/* rest */1],
-                              /* reps */state[/* reps */2],
-                              /* series */state[/* series */3],
-                              /* resting */false,
-                              /* finished */false
-                            ]]);
-                } else {
-                  return /* Update */Block.__(0, [/* record */[
-                              /* count */state[/* count */0] + 1 | 0,
-                              /* rest */exercise[/* rest */2],
-                              /* reps */List.hd(state[/* series */3]),
-                              /* series */List.tl(state[/* series */3]),
-                              /* resting */true,
-                              /* finished */state[/* finished */5]
-                            ]]);
-                }
-              } else {
-                var remaining = action[0];
-                var resting = remaining !== 0;
-                var completed = List.length(state[/* series */3]) === 0;
-                var finished = !resting && completed;
-                return /* Update */Block.__(0, [/* record */[
-                            /* count */state[/* count */0],
-                            /* rest */remaining,
-                            /* reps */state[/* reps */2],
-                            /* series */state[/* series */3],
-                            /* resting */resting,
-                            /* finished */finished
-                          ]]);
+              switch (action) {
+                case 0 : 
+                    return /* Update */Block.__(0, [/* record */[
+                                /* count */state[/* count */0] + 1 | 0,
+                                /* reps */List.hd(state[/* series */2]),
+                                /* series */List.tl(state[/* series */2]),
+                                /* resting */true,
+                                /* finished */state[/* finished */4]
+                              ]]);
+                case 1 : 
+                    Curry._1(onComplete, exercise[/* name */0]);
+                    return /* Update */Block.__(0, [/* record */[
+                                /* count */0,
+                                /* reps */state[/* reps */1],
+                                /* series */state[/* series */2],
+                                /* resting */false,
+                                /* finished */false
+                              ]]);
+                case 2 : 
+                    var completed = List.length(state[/* series */2]) === 0;
+                    return /* Update */Block.__(0, [/* record */[
+                                /* count */state[/* count */0],
+                                /* reps */state[/* reps */1],
+                                /* series */state[/* series */2],
+                                /* resting */false,
+                                /* finished */completed
+                              ]]);
+                
               }
             }),
           /* jsElementWrapped */component[/* jsElementWrapped */13]
@@ -124,7 +100,6 @@ function make(exercise, onComplete, _) {
 }
 
 exports.component = component;
-exports.countDown = countDown;
 exports.initialState = initialState;
 exports.make = make;
 /* component Not a pure module */

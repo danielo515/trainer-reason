@@ -1,7 +1,6 @@
 /* State declaration */
 type state = {
   count: int,
-  rest: int,
   reps: int,
   series: list(int),
   resting: bool,
@@ -12,27 +11,12 @@ type state = {
 type action =
   | Complete
   | Finish
-  | Rest(int);
+  | RestFinish;
 
-/* Component template declaration.
-   Needs to be **after** state and action declarations! */
 let component = ReasonReact.reducerComponent("Example");
 
-let rec countDown = (amount, fn) =>
-  if (amount > 0) {
-    Js.Global.setTimeout(
-      () => {
-        fn(amount - 1);
-        countDown(amount - 1, fn);
-      },
-      1000,
-    )
-    |> ignore;
-  };
-
-let initialState = ({rest, series}: Trainer.exercise_run) => {
+let initialState = ({series}: Trainer.exercise_run) => {
   count: 0,
-  rest,
   resting: false,
   finished: false,
   series: List.tl(series),
@@ -45,11 +29,9 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
   willReceiveProps: _self => initialState(exercise), /* Reset the count on exercise update */
   reducer: (action, state) =>
     switch (action) {
-    | Rest(remaining) =>
-      let resting = remaining != 0;
+    | RestFinish =>
       let completed = List.length(state.series) == 0;
-      let finished = !resting && completed;
-      ReasonReact.Update({...state, rest: remaining, resting, finished});
+      ReasonReact.Update({...state, resting:false, finished: completed});
 
     | Complete =>
       ReasonReact.Update({
@@ -57,7 +39,6 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
         count: state.count + 1,
         series: List.tl(state.series),
         reps: List.hd(state.series),
-        rest: exercise.rest,
         resting: true,
       })
     | Finish =>
@@ -80,7 +61,6 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
             onClick={
               _event => {
                 self.send(Complete);
-                countDown(exercise.rest, amount => self.send(Rest(amount)));
               }
             }>
             {ReasonReact.string(self.state.resting ? "Resting..." : "Done!")}
@@ -93,7 +73,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
       {ReasonReact.string("Count " ++ string_of_int(self.state.count))}
       <br />
       {ReasonReact.string("Rest ")}
-      <progress className="progress is-primary is-large" value=string_of_int(self.state.rest) max=string_of_int(exercise.rest)>(Util.textInt (self.state.rest))</progress>
+      <CountDown time=exercise.rest running=self.state.resting onFinish=(_=> self.send(RestFinish)) />
       <br />
       {ReasonReact.string("REPS " ++ string_of_int(self.state.reps))}
       <HorizontalList items=exercise.series index=self.state.count/>
