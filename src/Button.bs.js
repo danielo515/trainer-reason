@@ -7,7 +7,8 @@ var Util$ReactTemplate = require("./Util.bs.js");
 
 var component = ReasonReact.statelessComponent("Button");
 
-function make(onClick, disabled, text, _) {
+function make(onClick, $staropt$star, text, _) {
+  var disabled = $staropt$star !== undefined ? $staropt$star : false;
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],

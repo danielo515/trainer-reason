@@ -50,7 +50,5 @@ let make = (~session: Trainer.session, ~onComplete, _children) => {
         exercise={self.state.current}
         onComplete={_name => self.send(Next)}
       /> :
-      <button onClick={_ => self.send(Finish)}>
-        {ReasonReact.string("Finish session")}
-      </button>,
+      <Button onClick={_ => self.send(Finish)} text="Finish session"/>
 };

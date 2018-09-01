@@ -4,8 +4,8 @@
 var List = require("bs-platform/lib/js/list.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
-var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
+var Button$ReactTemplate = require("./Button.bs.js");
 var RunExercise$ReactTemplate = require("./RunExercise.bs.js");
 
 var component = ReasonReact.reducerComponent("Session");
@@ -58,11 +58,9 @@ function make(session, onComplete, _) {
                                   return Curry._1(self[/* send */3], /* Next */0);
                                 }), /* array */[]));
               } else {
-                return React.createElement("button", {
-                            onClick: (function () {
-                                return Curry._1(self[/* send */3], /* Finish */1);
-                              })
-                          }, "Finish session");
+                return ReasonReact.element(undefined, undefined, Button$ReactTemplate.make((function () {
+                                  return Curry._1(self[/* send */3], /* Finish */1);
+                                }), undefined, "Finish session", /* array */[]));
               }
             }),
           /* initialState */(function () {
