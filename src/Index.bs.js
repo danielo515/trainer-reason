@@ -5,6 +5,8 @@ var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Table$ReactTemplate = require("./Table.bs.js");
 
+(( require("./styles.scss") ));
+
 var press_banca = /* record */[
   /* name */"Press de banca",
   /* series : :: */[
@@ -78,11 +80,6 @@ var dale = /* record */[
   /* completed */0
 ];
 
-function onComplete(name) {
-  console.log("Session  " + (name + "Completed!!!"));
-  return /* () */0;
-}
-
 ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Table$ReactTemplate.make(dale, /* array */[])), "index1");
 
 var puto = /* record */[
@@ -95,5 +92,4 @@ exports.puto = puto;
 exports.press_banca = press_banca;
 exports.press_hombro = press_hombro;
 exports.dale = dale;
-exports.onComplete = onComplete;
 /*  Not a pure module */

@@ -1,3 +1,4 @@
+[%bs.raw {| require("./styles.scss") |}]
 let puto: Trainer.exercise_def = {
   name: "Press de banca",
   image: "./banca.png",
@@ -25,12 +26,5 @@ let dale: Trainer.table = {
   ],
   completed: 0,
 };
-
-let onComplete = name => Js.log("Session  " ++ name ++ "Completed!!!");
-
-/* ReactDOMRe.renderToElementWithId(
-     <Session session=List.hd(dale.sessions) onComplete />,
-     "index2",
-   ); */
 
 ReactDOMRe.renderToElementWithId(<Table table=dale />, "index1");

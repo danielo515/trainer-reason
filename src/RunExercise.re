@@ -72,10 +72,10 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
   render: self => {
     let message = "You are training: " ++ exercise.name;
     <div>
-      {ReasonReact.string(message)}
+      <span>{ReasonReact.string(message)}</span>
       {
         !self.state.finished ?
-          <button
+          <button className="button is-primary is-fullwidth"
             disabled={self.state.resting}
             onClick={
               _event => {
@@ -85,7 +85,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
             }>
             {ReasonReact.string(self.state.resting ? "Resting..." : "Done!")}
           </button> :
-          <button onClick={_e => self.send(Finish)}>
+          <button className="button is-primary" onClick={_e => self.send(Finish)}>
             {ReasonReact.string("Next Exercise!")}
           </button>
       }
@@ -95,6 +95,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
       {ReasonReact.string("Rest " ++ string_of_int(self.state.rest))}
       <br />
       {ReasonReact.string("REPS " ++ string_of_int(self.state.reps))}
+      <HorizontalList items=exercise.series index=self.state.count/>
       <br />
       {
         ReasonReact.string(

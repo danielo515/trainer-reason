@@ -16,15 +16,11 @@ type action =
    Needs to be **after** state and action declarations! */
 let component = ReasonReact.reducerComponent("Session");
 
-let listed = (fn, list) =>
-  ReasonReact.array(Array.of_list(List.map(fn, list)));
-let text = str => ReasonReact.string(str);
-
 let listSessions = (sessions, onClick) =>
   sessions
-  |> listed((session: Trainer.session) =>
-       <button key={session.name} onClick={_ => onClick(session)}>
-         {text(session.name)}
+  |> Util.listToComponent((session: Trainer.session) =>
+       <button className="button is-primary is-fullwidth is-outlined" key={session.name} onClick={_ => onClick(session)}>
+         {Util.text(session.name)}
        </button>
      );
 
