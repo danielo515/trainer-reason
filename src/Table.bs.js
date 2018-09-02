@@ -5,6 +5,7 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
+var Hero$ReactTemplate = require("./Hero.bs.js");
 var Util$ReactTemplate = require("./Util.bs.js");
 var Session$ReactTemplate = require("./Session.bs.js");
 
@@ -37,9 +38,11 @@ function make(table, _) {
               var match = self[/* state */1][/* session */0];
               return React.createElement("div", undefined, match ? ReasonReact.element(undefined, undefined, Session$ReactTemplate.make(match[0], (function () {
                                       return Curry._1(self[/* send */3], /* Finish */0);
-                                    }), /* array */[])) : listSessions(table[/* sessions */0], (function (session) {
-                                  return Curry._1(self[/* send */3], /* Select */[session]);
-                                })));
+                                    }), /* array */[])) : React.createElement("div", undefined, ReasonReact.element(undefined, undefined, Hero$ReactTemplate.make(/* array */[React.createElement("p", {
+                                              className: "title is-2"
+                                            }, Util$ReactTemplate.text(table[/* name */1]))])), listSessions(table[/* sessions */0], (function (session) {
+                                      return Curry._1(self[/* send */3], /* Select */[session]);
+                                    }))));
             }),
           /* initialState */(function () {
               return /* record */[

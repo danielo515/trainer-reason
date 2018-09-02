@@ -19,7 +19,10 @@ let component = ReasonReact.reducerComponent("Session");
 let listSessions = (sessions, onClick) =>
   sessions
   |> Util.listToComponent((session: Trainer.session) =>
-       <button className="button is-primary is-fullwidth is-outlined" key={session.name} onClick={_ => onClick(session)}>
+       <button
+         className="button is-primary is-fullwidth is-outlined"
+         key={session.name}
+         onClick={_ => onClick(session)}>
          {Util.text(session.name)}
        </button>
      );
@@ -41,7 +44,16 @@ let make = (~table: Trainer.table, _children) => {
         | Selected(session) =>
           <Session session onComplete=(_ => self.send(Finish)) />
         | NotSelected =>
-          listSessions(table.sessions, session => self.send(Select(session)))
+          <div>
+            <Hero>
+              <p className="title is-2"> {table.name |> Util.text} </p>
+            </Hero>
+            {
+              listSessions(table.sessions, session =>
+                self.send(Select(session))
+              )
+            }
+          </div>
         }
       }
     </div>,
