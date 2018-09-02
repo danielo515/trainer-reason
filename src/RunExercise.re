@@ -72,6 +72,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
           <div className="content">
             <p className="title is-2"> {exercise.name |> Util.text} </p>
             <p className="subtitle is-3"> {count |> Util.text} </p>
+            <p className="subtitle is-3"> {("Reps " ++ string_of_int(self.state.reps)) |> Util.text} </p>
           </div>
         </div>
       </article>
@@ -81,7 +82,6 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
         running={self.state.resting}
         onFinish={_ => self.send(RestFinish)}
       />
-      {ReasonReact.string("REPS " ++ string_of_int(self.state.reps))}
       <HorizontalList items={exercise.series} index={self.state.count} />
       {
         !self.state.finished ?
