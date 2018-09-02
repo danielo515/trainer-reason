@@ -7,7 +7,8 @@
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack -w",
-    "webpack:production": "NODE_ENV=production webpack"
+    "webpack:production": "NODE_ENV=production webpack",
+    "publish": "gh-pages -d build -m 'chore: automatic build'"
   },
   "keywords": [
     "BuckleScript"
@@ -23,8 +24,10 @@
   },
   "devDependencies": {
     "bs-platform": "^4.0.5",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "gh-pages": "^1.2.0",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
