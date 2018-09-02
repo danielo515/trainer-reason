@@ -18,7 +18,7 @@ type action =
   | Tick(int);
 
 
-let component = ReasonReact.reducerComponent("Example");
+let component = ReasonReact.reducerComponent("CountdownBar");
 
 let resolution = 100;
 let initialState = time => {max: time * resolution, current: 0};

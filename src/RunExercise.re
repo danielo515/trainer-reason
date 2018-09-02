@@ -1,3 +1,13 @@
+module Image = {
+  let component = ReasonReact.statelessComponent("Exercise-image");
+
+  let make = (~className, ~src, _children) => {
+    ...component,
+    render: _self =>
+      <figure className> <p className="image"> <img src /> </p> </figure>,
+  };
+};
+
 /* State declaration */
 type state = {
   count: int,
@@ -35,7 +45,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
         resting: false,
         finished,
         count: state.count + 1,
-        series:  finished ? state.series : List.tl(state.series),
+        series: finished ? state.series : List.tl(state.series),
         reps: finished ? state.reps : List.hd(state.series),
       });
 
@@ -50,9 +60,29 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
       });
     },
   render: self => {
-    let message = "You are training: " ++ exercise.name;
+    /* let message = "You are training: " ++ exercise.name; */
+    let count = "Count " ++ string_of_int(self.state.count);
     <div>
-      <span> {ReasonReact.string(message)} </span>
+      <article className="media">
+        <Image
+          className="media-left"
+          src="https://bulma.io/images/placeholders/320x480.png"
+        />
+        <div className="media-content">
+          <div className="content">
+            <p className="title is-2"> {exercise.name |> Util.text} </p>
+            <p className="subtitle is-3"> {count |> Util.text} </p>
+          </div>
+        </div>
+      </article>
+      {ReasonReact.string("Rest ")}
+      <CountDown
+        time={exercise.rest}
+        running={self.state.resting}
+        onFinish={_ => self.send(RestFinish)}
+      />
+      {ReasonReact.string("REPS " ++ string_of_int(self.state.reps))}
+      <HorizontalList items={exercise.series} index={self.state.count} />
       {
         !self.state.finished ?
           <Button
@@ -60,29 +90,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
             onClick={_event => self.send(Complete)}
             text={self.state.resting ? "Resting..." : "Done!"}
           /> :
-          <Button
-            disabled=false
-            onClick={_e => self.send(Finish)}
-            text="Next Exercise!"
-          />
-      }
-      <br />
-      {ReasonReact.string("Count " ++ string_of_int(self.state.count))}
-      <br />
-      {ReasonReact.string("Rest ")}
-      <CountDown
-        time={exercise.rest}
-        running={self.state.resting}
-        onFinish={_ => self.send(RestFinish)}
-      />
-      <br />
-      {ReasonReact.string("REPS " ++ string_of_int(self.state.reps))}
-      <HorizontalList items={exercise.series} index={self.state.count} />
-      <br />
-      {
-        ReasonReact.string(
-          "Remaining " ++ string_of_int(List.length(self.state.series)),
-        )
+          <Button onClick={_e => self.send(Finish)} text="Next Exercise!" />
       }
     </div>;
   },

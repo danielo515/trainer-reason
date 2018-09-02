@@ -6,11 +6,46 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
+var Util$ReactTemplate = require("./Util.bs.js");
 var Button$ReactTemplate = require("./Button.bs.js");
 var CountDown$ReactTemplate = require("./CountDown.bs.js");
 var HorizontalList$ReactTemplate = require("./HorizontalList.bs.js");
 
-var component = ReasonReact.reducerComponent("Exercise");
+var component = ReasonReact.statelessComponent("Exercise-image");
+
+function make(className, src, _) {
+  return /* record */[
+          /* debugName */component[/* debugName */0],
+          /* reactClassInternal */component[/* reactClassInternal */1],
+          /* handedOffState */component[/* handedOffState */2],
+          /* willReceiveProps */component[/* willReceiveProps */3],
+          /* didMount */component[/* didMount */4],
+          /* didUpdate */component[/* didUpdate */5],
+          /* willUnmount */component[/* willUnmount */6],
+          /* willUpdate */component[/* willUpdate */7],
+          /* shouldUpdate */component[/* shouldUpdate */8],
+          /* render */(function () {
+              return React.createElement("figure", {
+                          className: className
+                        }, React.createElement("p", {
+                              className: "image"
+                            }, React.createElement("img", {
+                                  src: src
+                                })));
+            }),
+          /* initialState */component[/* initialState */10],
+          /* retainedProps */component[/* retainedProps */11],
+          /* reducer */component[/* reducer */12],
+          /* jsElementWrapped */component[/* jsElementWrapped */13]
+        ];
+}
+
+var Image = /* module */[
+  /* component */component,
+  /* make */make
+];
+
+var component$1 = ReasonReact.reducerComponent("Exercise");
 
 function initialState(param) {
   var series = param[/* series */1];
@@ -23,21 +58,21 @@ function initialState(param) {
         ];
 }
 
-function make(exercise, onComplete, _) {
+function make$1(exercise, onComplete, _) {
   return /* record */[
-          /* debugName */component[/* debugName */0],
-          /* reactClassInternal */component[/* reactClassInternal */1],
-          /* handedOffState */component[/* handedOffState */2],
+          /* debugName */component$1[/* debugName */0],
+          /* reactClassInternal */component$1[/* reactClassInternal */1],
+          /* handedOffState */component$1[/* handedOffState */2],
           /* willReceiveProps */(function () {
               return initialState(exercise);
             }),
-          /* didMount */component[/* didMount */4],
-          /* didUpdate */component[/* didUpdate */5],
-          /* willUnmount */component[/* willUnmount */6],
-          /* willUpdate */component[/* willUpdate */7],
-          /* shouldUpdate */component[/* shouldUpdate */8],
+          /* didMount */component$1[/* didMount */4],
+          /* didUpdate */component$1[/* didUpdate */5],
+          /* willUnmount */component$1[/* willUnmount */6],
+          /* willUpdate */component$1[/* willUpdate */7],
+          /* shouldUpdate */component$1[/* shouldUpdate */8],
           /* render */(function (self) {
-              var message = "You are training: " + exercise[/* name */0];
+              var count = "Count " + String(self[/* state */1][/* count */0]);
               var match = !self[/* state */1][/* finished */4];
               var tmp;
               if (match) {
@@ -48,16 +83,26 @@ function make(exercise, onComplete, _) {
               } else {
                 tmp = ReasonReact.element(undefined, undefined, Button$ReactTemplate.make((function () {
                             return Curry._1(self[/* send */3], /* Finish */1);
-                          }), false, "Next Exercise!", /* array */[]));
+                          }), undefined, "Next Exercise!", /* array */[]));
               }
-              return React.createElement("div", undefined, React.createElement("span", undefined, message), tmp, React.createElement("br", undefined), "Count " + String(self[/* state */1][/* count */0]), React.createElement("br", undefined), "Rest ", ReasonReact.element(undefined, undefined, CountDown$ReactTemplate.make(exercise[/* rest */2], self[/* state */1][/* resting */3], (function () {
+              return React.createElement("div", undefined, React.createElement("article", {
+                              className: "media"
+                            }, ReasonReact.element(undefined, undefined, make("media-left", "https://bulma.io/images/placeholders/320x480.png", /* array */[])), React.createElement("div", {
+                                  className: "media-content"
+                                }, React.createElement("div", {
+                                      className: "content"
+                                    }, React.createElement("p", {
+                                          className: "title is-2"
+                                        }, Util$ReactTemplate.text(exercise[/* name */0])), React.createElement("p", {
+                                          className: "subtitle is-3"
+                                        }, Util$ReactTemplate.text(count))))), "Rest ", ReasonReact.element(undefined, undefined, CountDown$ReactTemplate.make(exercise[/* rest */2], self[/* state */1][/* resting */3], (function () {
                                     return Curry._1(self[/* send */3], /* RestFinish */2);
-                                  }), /* array */[])), React.createElement("br", undefined), "REPS " + String(self[/* state */1][/* reps */1]), ReasonReact.element(undefined, undefined, HorizontalList$ReactTemplate.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), React.createElement("br", undefined), "Remaining " + String(List.length(self[/* state */1][/* series */2])));
+                                  }), /* array */[])), "REPS " + String(self[/* state */1][/* reps */1]), ReasonReact.element(undefined, undefined, HorizontalList$ReactTemplate.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), tmp);
             }),
           /* initialState */(function () {
               return initialState(exercise);
             }),
-          /* retainedProps */component[/* retainedProps */11],
+          /* retainedProps */component$1[/* retainedProps */11],
           /* reducer */(function (action, state) {
               switch (action) {
                 case 0 : 
@@ -89,11 +134,12 @@ function make(exercise, onComplete, _) {
                 
               }
             }),
-          /* jsElementWrapped */component[/* jsElementWrapped */13]
+          /* jsElementWrapped */component$1[/* jsElementWrapped */13]
         ];
 }
 
-exports.component = component;
+exports.Image = Image;
+exports.component = component$1;
 exports.initialState = initialState;
-exports.make = make;
+exports.make = make$1;
 /* component Not a pure module */

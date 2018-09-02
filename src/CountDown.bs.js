@@ -20,7 +20,7 @@ function countDown(amount, fn) {
   }
 }
 
-var component = ReasonReact.reducerComponent("Example");
+var component = ReasonReact.reducerComponent("CountdownBar");
 
 function initialState(time) {
   return /* record */[
