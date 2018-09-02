@@ -89,8 +89,9 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
             disabled={self.state.resting}
             onClick={_event => self.send(Complete)}
             text={self.state.resting ? "Resting..." : "Done!"}
+            big=true
           /> :
-          <Button onClick={_e => self.send(Finish)} text="Next Exercise!" />
+          <Button onClick={_e => self.send(Finish)} text="Next Exercise!" big=true />
       }
     </div>;
   },
