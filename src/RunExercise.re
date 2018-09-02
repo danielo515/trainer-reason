@@ -4,7 +4,7 @@ module Image = {
   let make = (~className, ~src, _children) => {
     ...component,
     render: _self =>
-      <figure className> <p className="image"> <img src /> </p> </figure>,
+      <figure className> <p className="image is-128x128 is-4by5"> <img src /> </p> </figure>,
   };
 };
 
@@ -70,9 +70,9 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
         />
         <div className="media-content">
           <div className="content">
-            <p className="title is-2"> {exercise.name |> Util.text} </p>
-            <p className="subtitle is-3"> {count |> Util.text} </p>
-            <p className="subtitle is-3"> {("Reps " ++ string_of_int(self.state.reps)) |> Util.text} </p>
+            <p className="title is-3"> {exercise.name |> Util.text} </p>
+            <p className="subtitle is-4"> {count |> Util.text} </p>
+            <p className="subtitle is-4"> {("Reps " ++ string_of_int(self.state.reps)) |> Util.text} </p>
           </div>
         </div>
       </article>

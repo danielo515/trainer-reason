@@ -28,7 +28,7 @@ function make(className, src, _) {
               return React.createElement("figure", {
                           className: className
                         }, React.createElement("p", {
-                              className: "image"
+                              className: "image is-128x128 is-4by5"
                             }, React.createElement("img", {
                                   src: src
                                 })));
@@ -92,11 +92,11 @@ function make$1(exercise, onComplete, _) {
                                 }, React.createElement("div", {
                                       className: "content"
                                     }, React.createElement("p", {
-                                          className: "title is-2"
+                                          className: "title is-3"
                                         }, Util$ReactTemplate.text(exercise[/* name */0])), React.createElement("p", {
-                                          className: "subtitle is-3"
+                                          className: "subtitle is-4"
                                         }, Util$ReactTemplate.text(count)), React.createElement("p", {
-                                          className: "subtitle is-3"
+                                          className: "subtitle is-4"
                                         }, Util$ReactTemplate.text("Reps " + String(self[/* state */1][/* reps */1])))))), "Rest ", ReasonReact.element(undefined, undefined, CountDown$ReactTemplate.make(exercise[/* rest */2], self[/* state */1][/* resting */3], (function () {
                                     return Curry._1(self[/* send */3], /* RestFinish */2);
                                   }), /* array */[])), ReasonReact.element(undefined, undefined, HorizontalList$ReactTemplate.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), tmp);

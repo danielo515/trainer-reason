@@ -33,7 +33,7 @@ module.exports = {
 
     }),
     new CleanWebpackPlugin(["build"], {
-      watch: true
+      watch: false
     })
   ]
 };

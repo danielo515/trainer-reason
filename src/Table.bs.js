@@ -36,7 +36,9 @@ function make(table, _) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (self) {
               var match = self[/* state */1][/* session */0];
-              return React.createElement("div", undefined, match ? ReasonReact.element(undefined, undefined, Session$ReactTemplate.make(match[0], (function () {
+              return React.createElement("div", {
+                          className: "column"
+                        }, match ? ReasonReact.element(undefined, undefined, Session$ReactTemplate.make(match[0], (function () {
                                       return Curry._1(self[/* send */3], /* Finish */0);
                                     }), /* array */[])) : React.createElement("div", undefined, ReasonReact.element(undefined, undefined, Hero$ReactTemplate.make(/* array */[React.createElement("p", {
                                               className: "title is-2"

@@ -38,7 +38,7 @@ let make = (~table: Trainer.table, _children) => {
     | Finish => ReasonReact.Update({...state, session: NotSelected})
     },
   render: self =>
-    <div>
+    <div className="column">
       {
         switch (self.state.session) {
         | Selected(session) =>
