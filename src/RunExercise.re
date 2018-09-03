@@ -70,7 +70,7 @@ let make = (~exercise: Trainer.exercise_run, ~onComplete, _children) => {
         />
         <div className="media-content">
           <div className="content">
-            <p className="title is-3"> {exercise.name |> Util.text} </p>
+            <p className="title is-4"> {exercise.name |> Util.text} </p>
             <p className="subtitle is-4"> {count |> Util.text} </p>
             <p className="subtitle is-4"> {("Reps " ++ string_of_int(self.state.reps)) |> Util.text} </p>
           </div>

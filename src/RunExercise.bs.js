@@ -6,10 +6,10 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Util$ReactTemplate = require("./Util.bs.js");
-var Button$ReactTemplate = require("./Button.bs.js");
-var CountDown$ReactTemplate = require("./CountDown.bs.js");
-var HorizontalList$ReactTemplate = require("./HorizontalList.bs.js");
+var Util$ReasonTrainer = require("./Util.bs.js");
+var Button$ReasonTrainer = require("./Button.bs.js");
+var CountDown$ReasonTrainer = require("./CountDown.bs.js");
+var HorizontalList$ReasonTrainer = require("./HorizontalList.bs.js");
 
 var component = ReasonReact.statelessComponent("Exercise-image");
 
@@ -77,13 +77,13 @@ function make$1(exercise, onComplete, _) {
               var tmp;
               if (match) {
                 var match$1 = self[/* state */1][/* resting */3];
-                tmp = ReasonReact.element(undefined, undefined, Button$ReactTemplate.make((function () {
+                tmp = ReasonReact.element(undefined, undefined, Button$ReasonTrainer.make((function () {
                             return Curry._1(self[/* send */3], /* Complete */0);
-                          }), self[/* state */1][/* resting */3], match$1 ? "Resting..." : "Done!", /* array */[]));
+                          }), self[/* state */1][/* resting */3], match$1 ? "Resting..." : "Done!", true, /* array */[]));
               } else {
-                tmp = ReasonReact.element(undefined, undefined, Button$ReactTemplate.make((function () {
+                tmp = ReasonReact.element(undefined, undefined, Button$ReasonTrainer.make((function () {
                             return Curry._1(self[/* send */3], /* Finish */1);
-                          }), undefined, "Next Exercise!", /* array */[]));
+                          }), undefined, "Next Exercise!", true, /* array */[]));
               }
               return React.createElement("div", undefined, React.createElement("article", {
                               className: "media"
@@ -92,14 +92,14 @@ function make$1(exercise, onComplete, _) {
                                 }, React.createElement("div", {
                                       className: "content"
                                     }, React.createElement("p", {
-                                          className: "title is-3"
-                                        }, Util$ReactTemplate.text(exercise[/* name */0])), React.createElement("p", {
+                                          className: "title is-4"
+                                        }, Util$ReasonTrainer.text(exercise[/* name */0])), React.createElement("p", {
                                           className: "subtitle is-4"
-                                        }, Util$ReactTemplate.text(count)), React.createElement("p", {
+                                        }, Util$ReasonTrainer.text(count)), React.createElement("p", {
                                           className: "subtitle is-4"
-                                        }, Util$ReactTemplate.text("Reps " + String(self[/* state */1][/* reps */1])))))), "Rest ", ReasonReact.element(undefined, undefined, CountDown$ReactTemplate.make(exercise[/* rest */2], self[/* state */1][/* resting */3], (function () {
+                                        }, Util$ReasonTrainer.text("Reps " + String(self[/* state */1][/* reps */1])))))), "Rest ", ReasonReact.element(undefined, undefined, CountDown$ReasonTrainer.make(exercise[/* rest */2], self[/* state */1][/* resting */3], (function () {
                                     return Curry._1(self[/* send */3], /* RestFinish */2);
-                                  }), /* array */[])), ReasonReact.element(undefined, undefined, HorizontalList$ReactTemplate.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), tmp);
+                                  }), /* array */[])), ReasonReact.element(undefined, undefined, HorizontalList$ReasonTrainer.make(exercise[/* series */1], self[/* state */1][/* count */0], /* array */[])), tmp);
             }),
           /* initialState */(function () {
               return initialState(exercise);
