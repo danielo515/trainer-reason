@@ -5,8 +5,8 @@ var List = require("bs-platform/lib/js/list.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Button$ReactTemplate = require("./Button.bs.js");
-var RunExercise$ReactTemplate = require("./RunExercise.bs.js");
+var Button$ReasonTrainer = require("./Button.bs.js");
+var RunExercise$ReasonTrainer = require("./RunExercise.bs.js");
 
 var component = ReasonReact.reducerComponent("Session");
 
@@ -54,13 +54,13 @@ function make(session, onComplete, _) {
           /* render */(function (self) {
               var match = !self[/* state */1][/* finished */2];
               if (match) {
-                return ReasonReact.element(undefined, undefined, RunExercise$ReactTemplate.make(self[/* state */1][/* current */1], (function () {
+                return ReasonReact.element(undefined, undefined, RunExercise$ReasonTrainer.make(self[/* state */1][/* current */1], (function () {
                                   return Curry._1(self[/* send */3], /* Next */0);
                                 }), /* array */[]));
               } else {
-                return ReasonReact.element(undefined, undefined, Button$ReactTemplate.make((function () {
+                return ReasonReact.element(undefined, undefined, Button$ReasonTrainer.make((function () {
                                   return Curry._1(self[/* send */3], /* Finish */1);
-                                }), undefined, "Finish session", /* array */[]));
+                                }), undefined, "Finish session", undefined, /* array */[]));
               }
             }),
           /* initialState */(function () {

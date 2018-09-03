@@ -3,12 +3,13 @@
 
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Util$ReactTemplate = require("./Util.bs.js");
+var Util$ReasonTrainer = require("./Util.bs.js");
 
 var component = ReasonReact.statelessComponent("Button");
 
-function make(onClick, $staropt$star, text, _) {
+function make(onClick, $staropt$star, text, $staropt$star$1, _) {
   var disabled = $staropt$star !== undefined ? $staropt$star : false;
+  var big = $staropt$star$1 !== undefined ? $staropt$star$1 : true;
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -21,10 +22,12 @@ function make(onClick, $staropt$star, text, _) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
               return React.createElement("button", {
-                          className: "button is-primary is-fullwidth",
+                          className: "button is-primary is-fullwidth " + (
+                            big ? "is-large" : ""
+                          ),
                           disabled: disabled,
                           onClick: onClick
-                        }, Util$ReactTemplate.text(text));
+                        }, Util$ReasonTrainer.text(text));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

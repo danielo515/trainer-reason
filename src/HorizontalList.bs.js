@@ -4,7 +4,7 @@
 var List = require("bs-platform/lib/js/list.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Util$ReactTemplate = require("./Util.bs.js");
+var Util$ReasonTrainer = require("./Util.bs.js");
 
 var component = ReasonReact.statelessComponent("HorizontalList");
 
@@ -22,14 +22,14 @@ function make(items, index, _) {
           /* render */(function () {
               return React.createElement("div", {
                           className: "tags"
-                        }, Util$ReactTemplate.componentFromList(List.mapi((function (idx, item) {
+                        }, Util$ReasonTrainer.componentFromList(List.mapi((function (idx, item) {
                                     var match = idx === index;
                                     return React.createElement("span", {
                                                 key: String(idx),
                                                 className: "tag is-large " + (
                                                   match ? "is-primary" : "is-light"
                                                 )
-                                              }, Util$ReactTemplate.text(String(item)));
+                                              }, Util$ReasonTrainer.text(String(item)));
                                   }), items)));
             }),
           /* initialState */component[/* initialState */10],

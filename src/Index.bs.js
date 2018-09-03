@@ -3,7 +3,7 @@
 
 var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Table$ReactTemplate = require("./Table.bs.js");
+var Table$ReasonTrainer = require("./Table.bs.js");
 
 (( require("./styles.scss") ));
 
@@ -80,7 +80,7 @@ var dale = /* record */[
   /* completed */0
 ];
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Table$ReactTemplate.make(dale, /* array */[])), "index1");
+ReactDOMRe.renderToElementWithId(ReasonReact.element(undefined, undefined, Table$ReasonTrainer.make(dale, /* array */[])), "index1");
 
 var puto = /* record */[
   /* name */"Press de banca",

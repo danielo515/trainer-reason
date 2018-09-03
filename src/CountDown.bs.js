@@ -6,7 +6,7 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Caml_int32 = require("bs-platform/lib/js/caml_int32.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Util$ReactTemplate = require("./Util.bs.js");
+var Util$ReasonTrainer = require("./Util.bs.js");
 
 function countDown(amount, fn) {
   if (amount > 0) {
@@ -53,7 +53,7 @@ function make(time, running, onFinish, _) {
                           className: "progress is-primary is-large",
                           max: String(state[/* max */0]),
                           value: String(state[/* current */1])
-                        }, Util$ReactTemplate.textInt(state[/* current */1]));
+                        }, Util$ReasonTrainer.textInt(state[/* current */1]));
             }),
           /* initialState */(function () {
               return initialState(time);
