@@ -5,12 +5,14 @@
     "_build": "bsb -make-world",
     "_start": "bsb -make-world -w",
     "_clean": "bsb -clean-world",
-    "build": "parcel build ./src/index.html",
+    "build": "parcel build ./src/index.html --public-url ./",
+    "clean":"rimraf dist",
     "start": "parcel ./src/index.html ./src/*.re",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack -w",
     "webpack:production": "NODE_ENV=production webpack",
-    "publish": "gh-pages -d build -m 'chore: automatic build'"
+    "pages": "gh-pages -d dist -m 'chore: automatic build'",
+    "deploy":"npm run clean && npm run build && npm run pages"
   },
   "keywords": [
     "BuckleScript"
