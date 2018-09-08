@@ -36,7 +36,7 @@ module Encode = {
     object_([
       ("name", string(name)),
       ("rest", int(rest)),
-      ("series", list(int,series)),
+      ("series", list(int, series)),
       ("completed", int(completed)),
     ]);
 
@@ -54,7 +54,30 @@ module Encode = {
     ]);
 };
 
-let isCompleted = exercise => List.length(exercise.series) == exercise.completed;
+module Decode = {
+  open Json_decode;
+  let exercise = str => {
+    name: field("name", string, str),
+    rest: field("rest", int, str),
+    series: field("series", list(int), str),
+    completed: field("completed", int, str),
+  }
+
+  let session = str => {
+    name: field("name", string, str),
+    exercises: field("exercises", list(exercise), str),
+  }
+  
+  let table = str => {
+    name: field("name", string, str),
+    completed: field("completed", int, str),
+    sessions: field("sessions", list(session), str),
+  };
+
+};
+
+let isCompleted = exercise =>
+  List.length(exercise.series) == exercise.completed;
 
 let newTable = name: table => {name, sessions: [], completed: 0};
 
@@ -67,7 +90,10 @@ let newExercise = (~name, ~series, ~rest=30, ()) => {
   completed: 0,
 };
 
-let serieCompleted = (ex: exercise_run) => {...ex, completed: ex.completed + 1}
+let serieCompleted = (ex: exercise_run) => {
+  ...ex,
+  completed: ex.completed + 1,
+};
 
 let insertExercise = (session, ~exercise) => {
   ...session,
@@ -91,28 +117,27 @@ let addSession = (table, session) => {
 };
 
 /* let emptyTable =
-  newTable("Rabo")
-  ->addSession({name: "No Existe", exercises: []})
-  ->addToSession(
-      "No Existe",
-      newExercise(~name="Press anal",  ~series=[10,8,8,6,6], ()),
-    )
-  ->addToSession(
-      "No Existe",
-      newExercise(~name="Press Brutal", ~series=[10,10,8,6,6], ()),
-    )
-  ->addToSession(
-      "No Existe",
-      (newExercise(~name="Press Follamigo", ~series=[10,10,8,8,6], ~rest=45, ()) |> serieCompleted),
-    );
+     newTable("Rabo")
+     ->addSession({name: "No Existe", exercises: []})
+     ->addToSession(
+         "No Existe",
+         newExercise(~name="Press anal",  ~series=[10,8,8,6,6], ()),
+       )
+     ->addToSession(
+         "No Existe",
+         newExercise(~name="Press Brutal", ~series=[10,10,8,6,6], ()),
+       )
+     ->addToSession(
+         "No Existe",
+         (newExercise(~name="Press Follamigo", ~series=[10,10,8,8,6], ~rest=45, ()) |> serieCompleted),
+       );
 
-let logDir = [%raw x => "console.dir(x, {depth:12})"];
+   let logDir = [%raw x => "console.dir(x, {depth:12})"];
 
-logDir(Encode.table(emptyTable));
+   logDir(Encode.table(emptyTable));
 
-logDir(
-  emptyTable.sessions
-  |> List.map(s => s.exercises)
-  |> List.map(isCompleted)->List.map,
-); */
-
+   logDir(
+     emptyTable.sessions
+     |> List.map(s => s.exercises)
+     |> List.map(isCompleted)->List.map,
+   ); */
