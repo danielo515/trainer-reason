@@ -7,7 +7,7 @@ var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Hero$ReasonTrainer = require("./Hero.bs.js");
 var Util$ReasonTrainer = require("./Util.bs.js");
-var Store$ReasonTrainer = require("./Store.bs.js");
+var Button$ReasonTrainer = require("./Button.bs.js");
 var Session$ReasonTrainer = require("./Session.bs.js");
 
 var component = ReasonReact.reducerComponent("Session");
@@ -24,7 +24,7 @@ function listSessions(sessions, onClick) {
               }), sessions);
 }
 
-function make(table, _) {
+function make(table, send, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -45,38 +45,40 @@ function make(table, _) {
                                               className: "title is-2"
                                             }, Util$ReasonTrainer.text(table[/* name */1]))])), listSessions(table[/* sessions */0], (function (session) {
                                       return Curry._1(self[/* send */3], /* Select */[session]);
-                                    }))));
+                                    })), ReasonReact.element(undefined, undefined, Button$ReasonTrainer.make((function () {
+                                          return Curry._1(send, /* ClearTable */1);
+                                        }), undefined, "Back", undefined, /* array */[]))));
             }),
           /* initialState */(function () {
               return /* record */[
                       /* session : NotSelected */0,
-                      /* sessions */table[/* sessions */0],
-                      /* onFinish */undefined
+                      /* sessions */table[/* sessions */0]
                     ];
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (action, state) {
               if (action) {
                 var session = action[0];
-                return /* Update */Block.__(0, [/* record */[
+                return /* UpdateWithSideEffects */Block.__(2, [
+                          /* record */[
                             /* session : Selected */[session],
-                            /* sessions */state[/* sessions */1],
-                            /* onFinish */Store$ReasonTrainer.startSession(table[/* name */1], session[/* name */0])
-                          ]]);
+                            /* sessions */state[/* sessions */1]
+                          ],
+                          (function () {
+                              return Curry._1(send, /* StartSession */Block.__(0, [/* tuple */[
+                                              table[/* name */1],
+                                              session[/* name */0]
+                                            ]]));
+                            })
+                        ]);
               } else {
                 return /* UpdateWithSideEffects */Block.__(2, [
                           /* record */[
                             /* session : NotSelected */0,
-                            /* sessions */state[/* sessions */1],
-                            /* onFinish */state[/* onFinish */2]
+                            /* sessions */state[/* sessions */1]
                           ],
                           (function () {
-                              var match = state[/* onFinish */2];
-                              if (match !== undefined) {
-                                return Curry._1(match, /* () */0);
-                              } else {
-                                return /* () */0;
-                              }
+                              return Curry._1(send, /* FinishSession */0);
                             })
                         ]);
               }

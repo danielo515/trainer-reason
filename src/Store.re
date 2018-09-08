@@ -10,9 +10,34 @@ type state = {
   tables: list(Trainer.table),
   editing: bool,
   completed_sessions: list(session),
+  finishSession: option(state => state),
 };
 
 type updater = state => state;
+type sessionName = string;
+type tableName = string;
+type sessionId = (tableName, sessionName);
+
+type action =
+  | StartSession(sessionId)
+  | FinishSession
+  | SelectTable(Trainer.table)
+  | ClearTable;
+
+let startSession = (table, session) => {
+  let newSession = {table, session, start: Js.Date.now(), _end: 0.0};
+  let finish = state => {
+    ...state,
+    completed_sessions: [
+      {...newSession, _end: Js.Date.now()},
+      ...state.completed_sessions,
+    ],
+  };
+
+  finish;
+};
+
+let component = ReasonReact.reducerComponent("Store");
 
 module Encode = {
   open Json_encode;
@@ -47,66 +72,52 @@ module Decode = {
       tables,
       completed_sessions: field("completed_sessions", list(session), str),
       editing: false,
-      table: Some(List.hd(tables)),
+      finishSession: None,
+      table: None,
     };
   };
 };
 
-let state =
-  ref({
-    table: None,
-    tables: [],
-    editing: false,
-    completed_sessions: [],
-  });
-
-let selectTable = (~tableName, state): state => {
-  ...state,
-  table:
-    try (
-      Some(
-        List.find(
-          ({name}: Trainer.table) => name == tableName,
-          state.tables,
-        ),
-      )
-    ) {
-    | Not_found => None
-    },
+let initialState = {
+  tables: [],
+  editing: false,
+  completed_sessions: [],
+  finishSession: None,
+  table: None,
 };
 
-let update = (fn: updater) => state := fn(state^);
+let loadState = () =>
+  Dom.Storage.(localStorage |> getItem("store"))
+  |> (
+    fun
+    | Some(str) => str |> Json.parseOrRaise |> Decode.state
+    | _ => initialState
+  );
 
 let saveState = state => {
   let json = state |> Encode.state |> Json.stringify;
   Dom.Storage.(localStorage |> setItem("store", json));
 };
 
-let loadState = () =>
-  state :=
-    Dom.Storage.(localStorage |> getItem("store"))
-    |> (
-      fun
-      | Some(str) => str |> Json.parseOrRaise |> Decode.state
-      | _ => state^
-    );
-
-let startSession = (table, session) => {
-  let newSession = {table, session, start: Js.Date.now(), _end: 0.0};
-  let finish = state => {
-    ...state,
-    completed_sessions: [
-      {...newSession, _end: Js.Date.now()},
-      ...state.completed_sessions,
-    ],
-  };
-
-  () => {
-    update(finish);
-    saveState(state^);
-  };
+let make = (~render, _children) => {
+  ...component,
+  initialState: loadState,
+  reducer: (action, state) =>
+    ReasonReact.(
+      switch (action) {
+      | ClearTable => Update({...state, table: None})
+      | SelectTable(table) => Update({...state, table: Some(table)})
+      | StartSession((tableName, sessionName)) =>
+        Update({
+          ...state,
+          finishSession: Some(startSession(tableName, sessionName)),
+        })
+      | FinishSession =>
+        switch (state.finishSession) {
+        | Some(fn) => UpdateWithSideEffects(fn(state), self => saveState(self.state))
+        | None => NoUpdate
+        }
+      }
+    ),
+  render: self => render(self.state, self.send),
 };
-
-let render = fn => fn(state^);
-
-loadState();

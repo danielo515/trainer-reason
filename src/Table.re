@@ -5,7 +5,6 @@ type curSession =
 type state = {
   session: curSession,
   sessions: list(Trainer.session),
-  onFinish: option(unit => unit),
 };
 
 /* Action declaration */
@@ -28,30 +27,26 @@ let listSessions = (sessions, onClick) =>
        </button>
      );
 
-let make = (~table: Trainer.table, _children) => {
+let make = (~table: Trainer.table, ~send, _children) => {
   ...component,
   initialState: () => {
     session: NotSelected,
     sessions: table.sessions,
-    onFinish: None,
   },
   reducer: (action, state: state) =>
     switch (action) {
     | Select(session) =>
-      ReasonReact.Update({
+      ReasonReact.UpdateWithSideEffects({
         ...state,
         session: Selected(session),
-        onFinish: Some(Store.startSession(table.name, session.name)),
-      })
+      },
+      _self => send(Store.StartSession((table.name, session.name)))
+      )
     | Finish =>
       ReasonReact.UpdateWithSideEffects(
         {...state, session: NotSelected},
         (
-          _self =>
-            switch (state.onFinish) {
-            | Some(fn) => fn()
-            | None => ()
-            }
+          _self => send(Store.FinishSession)
         ),
       )
     },
@@ -71,6 +66,7 @@ let make = (~table: Trainer.table, _children) => {
                 self.send(Select(session))
               )
             }
+            <Button text="Back" onClick=(_=> send(Store.ClearTable))/>
           </div>
         }
       }

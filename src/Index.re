@@ -1,5 +1,5 @@
 [%bs.raw {| require("./styles.scss") |}];
-let stateDev = [%bs.raw {| require("./tabla") |}];
+/* let stateDev = [%bs.raw {| require("./tabla") |}]; */
 
 let listTables = (tables, onClick) =>
   tables
@@ -11,20 +11,11 @@ let listTables = (tables, onClick) =>
        />
      );
 
+let render = (state: Store.state, send) =>
+  switch (state.table) {
+  | None =>
+    listTables(state.tables, table =>  Store.SelectTable(table)  |> send )
+  | Some(table) => <Table table send />
+  };
 
-Store.update( _=> Store.Decode.state (stateDev))
-
-ReactDOMRe.renderToElementWithId(
-  Store.render(state =>
-    switch (state.table) {
-    | None =>
-      listTables(state.tables, table =>
-        (
-          Store.update(Store.selectTable(~tableName=table.name))
-        )
-      )
-    | Some(table) => <Table table />
-    }
-  ),
-  "index1",
-);
+ReactDOMRe.renderToElementWithId(<Store render />, "index1");

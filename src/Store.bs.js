@@ -2,12 +2,35 @@
 'use strict';
 
 var Json = require("@glennsl/bs-json/src/Json.bs.js");
-var List = require("bs-platform/lib/js/list.js");
+var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
+var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Trainer$ReasonTrainer = require("./Trainer.bs.js");
-var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
+
+function startSession(table, session) {
+  var newSession_002 = /* start */Date.now();
+  return (function (state) {
+      return /* record */[
+              /* table */state[/* table */0],
+              /* tables */state[/* tables */1],
+              /* editing */state[/* editing */2],
+              /* completed_sessions : :: */[
+                /* record */[
+                  /* table */table,
+                  /* session */session,
+                  newSession_002,
+                  /* _end */Date.now()
+                ],
+                state[/* completed_sessions */3]
+              ],
+              /* finishSession */state[/* finishSession */4]
+            ];
+    });
+}
+
+var component = ReasonReact.reducerComponent("Store");
 
 function session(param) {
   return Json_encode.object_(/* :: */[
@@ -73,12 +96,13 @@ function state$1(str) {
           return Json_decode.list(partial_arg, param);
         }), str);
   return /* record */[
-          /* table */List.hd(tables),
+          /* table */undefined,
           /* tables */tables,
           /* editing */false,
           /* completed_sessions */Json_decode.field("completed_sessions", (function (param) {
                   return Json_decode.list(session$1, param);
-                }), str)
+                }), str),
+          /* finishSession */undefined
         ];
 }
 
@@ -87,89 +111,97 @@ var Decode = /* module */[
   /* state */state$1
 ];
 
-var state$2 = /* record */[/* contents : record */[
-    /* table */undefined,
-    /* tables : [] */0,
-    /* editing */false,
-    /* completed_sessions : [] */0
-  ]];
+var initialState = /* record */[
+  /* table */undefined,
+  /* tables : [] */0,
+  /* editing */false,
+  /* completed_sessions : [] */0,
+  /* finishSession */undefined
+];
 
-function selectTable(tableName, state) {
-  var tmp;
-  try {
-    tmp = List.find((function (param) {
-            return param[/* name */1] === tableName;
-          }), state[/* tables */1]);
+function loadState() {
+  var param = localStorage.getItem("store");
+  if (param !== null) {
+    return state$1(Json.parseOrRaise(param));
+  } else {
+    return initialState;
   }
-  catch (exn){
-    if (exn === Caml_builtin_exceptions.not_found) {
-      tmp = undefined;
-    } else {
-      throw exn;
-    }
-  }
-  return /* record */[
-          /* table */tmp,
-          /* tables */state[/* tables */1],
-          /* editing */state[/* editing */2],
-          /* completed_sessions */state[/* completed_sessions */3]
-        ];
 }
 
-function update(fn) {
-  state$2[0] = Curry._1(fn, state$2[0]);
-  return /* () */0;
-}
-
-function saveState(state$3) {
-  var json = Json.stringify(state(state$3));
+function saveState(state$2) {
+  var json = Json.stringify(state(state$2));
   localStorage.setItem("store", json);
   return /* () */0;
 }
 
-function loadState() {
-  var param = localStorage.getItem("store");
-  state$2[0] = param !== null ? state$1(Json.parseOrRaise(param)) : state$2[0];
-  return /* () */0;
+function make(render, _) {
+  return /* record */[
+          /* debugName */component[/* debugName */0],
+          /* reactClassInternal */component[/* reactClassInternal */1],
+          /* handedOffState */component[/* handedOffState */2],
+          /* willReceiveProps */component[/* willReceiveProps */3],
+          /* didMount */component[/* didMount */4],
+          /* didUpdate */component[/* didUpdate */5],
+          /* willUnmount */component[/* willUnmount */6],
+          /* willUpdate */component[/* willUpdate */7],
+          /* shouldUpdate */component[/* shouldUpdate */8],
+          /* render */(function (self) {
+              return Curry._2(render, self[/* state */1], self[/* send */3]);
+            }),
+          /* initialState */loadState,
+          /* retainedProps */component[/* retainedProps */11],
+          /* reducer */(function (action, state) {
+              if (typeof action === "number") {
+                if (action === 0) {
+                  var match = state[/* finishSession */4];
+                  if (match !== undefined) {
+                    return /* UpdateWithSideEffects */Block.__(2, [
+                              Curry._1(match, state),
+                              (function (self) {
+                                  return saveState(self[/* state */1]);
+                                })
+                            ]);
+                  } else {
+                    return /* NoUpdate */0;
+                  }
+                } else {
+                  return /* Update */Block.__(0, [/* record */[
+                              /* table */undefined,
+                              /* tables */state[/* tables */1],
+                              /* editing */state[/* editing */2],
+                              /* completed_sessions */state[/* completed_sessions */3],
+                              /* finishSession */state[/* finishSession */4]
+                            ]]);
+                }
+              } else if (action.tag) {
+                return /* Update */Block.__(0, [/* record */[
+                            /* table */action[0],
+                            /* tables */state[/* tables */1],
+                            /* editing */state[/* editing */2],
+                            /* completed_sessions */state[/* completed_sessions */3],
+                            /* finishSession */state[/* finishSession */4]
+                          ]]);
+              } else {
+                var match$1 = action[0];
+                return /* Update */Block.__(0, [/* record */[
+                            /* table */state[/* table */0],
+                            /* tables */state[/* tables */1],
+                            /* editing */state[/* editing */2],
+                            /* completed_sessions */state[/* completed_sessions */3],
+                            /* finishSession */startSession(match$1[0], match$1[1])
+                          ]]);
+              }
+            }),
+          /* jsElementWrapped */component[/* jsElementWrapped */13]
+        ];
 }
 
-function startSession(table, session) {
-  var newSession_002 = /* start */Date.now();
-  var finish = function (state) {
-    return /* record */[
-            /* table */state[/* table */0],
-            /* tables */state[/* tables */1],
-            /* editing */state[/* editing */2],
-            /* completed_sessions : :: */[
-              /* record */[
-                /* table */table,
-                /* session */session,
-                newSession_002,
-                /* _end */Date.now()
-              ],
-              state[/* completed_sessions */3]
-            ]
-          ];
-  };
-  return (function () {
-      update(finish);
-      return saveState(state$2[0]);
-    });
-}
-
-function render(fn) {
-  return Curry._1(fn, state$2[0]);
-}
-
-loadState(/* () */0);
-
+exports.startSession = startSession;
+exports.component = component;
 exports.Encode = Encode;
 exports.Decode = Decode;
-exports.state = state$2;
-exports.selectTable = selectTable;
-exports.update = update;
-exports.saveState = saveState;
+exports.initialState = initialState;
 exports.loadState = loadState;
-exports.startSession = startSession;
-exports.render = render;
-/*  Not a pure module */
+exports.saveState = saveState;
+exports.make = make;
+/* component Not a pure module */
