@@ -5,6 +5,7 @@ type curSession =
 type state = {
   session: curSession,
   sessions: list(Trainer.session),
+  onFinish: option(unit => unit),
 };
 
 /* Action declaration */
@@ -29,13 +30,30 @@ let listSessions = (sessions, onClick) =>
 
 let make = (~table: Trainer.table, _children) => {
   ...component,
-  initialState: () => {session: NotSelected, sessions: table.sessions},
+  initialState: () => {
+    session: NotSelected,
+    sessions: table.sessions,
+    onFinish: None,
+  },
   reducer: (action, state: state) =>
     switch (action) {
     | Select(session) =>
-      Js.log(session);
-      ReasonReact.Update({...state, session: Selected(session)});
-    | Finish => ReasonReact.Update({...state, session: NotSelected})
+      ReasonReact.Update({
+        ...state,
+        session: Selected(session),
+        onFinish: Some(Store.startSession(table.name, session.name)),
+      })
+    | Finish =>
+      ReasonReact.UpdateWithSideEffects(
+        {...state, session: NotSelected},
+        (
+          _self =>
+            switch (state.onFinish) {
+            | Some(fn) => fn()
+            | None => ()
+            }
+        ),
+      )
     },
   render: self =>
     <div className="column">

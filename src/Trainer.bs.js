@@ -2,6 +2,7 @@
 'use strict';
 
 var List = require("bs-platform/lib/js/list.js");
+var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 
 function exercise(param) {
@@ -76,6 +77,42 @@ var Encode = /* module */[
   /* exercise */exercise,
   /* session */session,
   /* table */table
+];
+
+function exercise$1(str) {
+  return /* record */[
+          /* name */Json_decode.field("name", Json_decode.string, str),
+          /* series */Json_decode.field("series", (function (param) {
+                  return Json_decode.list(Json_decode.$$int, param);
+                }), str),
+          /* rest */Json_decode.field("rest", Json_decode.$$int, str),
+          /* completed */Json_decode.field("completed", Json_decode.$$int, str)
+        ];
+}
+
+function session$1(str) {
+  return /* record */[
+          /* name */Json_decode.field("name", Json_decode.string, str),
+          /* exercises */Json_decode.field("exercises", (function (param) {
+                  return Json_decode.list(exercise$1, param);
+                }), str)
+        ];
+}
+
+function table$1(str) {
+  return /* record */[
+          /* sessions */Json_decode.field("sessions", (function (param) {
+                  return Json_decode.list(session$1, param);
+                }), str),
+          /* name */Json_decode.field("name", Json_decode.string, str),
+          /* completed */Json_decode.field("completed", Json_decode.$$int, str)
+        ];
+}
+
+var Decode = /* module */[
+  /* exercise */exercise$1,
+  /* session */session$1,
+  /* table */table$1
 ];
 
 function isCompleted(exercise) {
@@ -153,6 +190,7 @@ function addSession(table, session) {
 }
 
 exports.Encode = Encode;
+exports.Decode = Decode;
 exports.isCompleted = isCompleted;
 exports.newTable = newTable;
 exports.newSession = newSession;

@@ -1,30 +1,30 @@
-[%bs.raw {| require("./styles.scss") |}]
-let puto: Trainer.exercise_def = {
-  name: "Press de banca",
-  image: "./banca.png",
-  category: Torso,
-};
+[%bs.raw {| require("./styles.scss") |}];
+let stateDev = [%bs.raw {| require("./tabla") |}];
 
-let press_banca: Trainer.exercise_run = {
-  name: "Press de banca",
-  series: [10,8,8,6,6],
-  rest: 3,
-  completed: 0,
-};
-let press_hombro: Trainer.exercise_run = {
-  name: "Press de hombro",
-  series: [10,10,8,8,6],
-  rest: 1,
-  completed: 0,
-};
+let listTables = (tables, onClick) =>
+  tables
+  |> Util.listToComponent((table: Trainer.table) =>
+       <Button
+         key={table.name}
+         onClick={_ => onClick(table)}
+         text={table.name}
+       />
+     );
 
-let dale: Trainer.table = {
-  name: "Prueba",
-  sessions: [
-    {name: "Day 1", exercises: [press_hombro]},
-    {name: "Day 2", exercises: [press_banca, press_hombro]},
-  ],
-  completed: 0,
-};
 
-ReactDOMRe.renderToElementWithId(<Table table=dale />, "index1");
+Store.update( _=> Store.Decode.state (stateDev))
+
+ReactDOMRe.renderToElementWithId(
+  Store.render(state =>
+    switch (state.table) {
+    | None =>
+      listTables(state.tables, table =>
+        (
+          Store.update(Store.selectTable(~tableName=table.name))
+        )
+      )
+    | Some(table) => <Table table />
+    }
+  ),
+  "index1",
+);

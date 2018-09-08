@@ -1,0 +1,46 @@
+{
+    "tables": [
+        {
+            "name": "Prueba de rabo",
+            "completed": 0,
+            "sessions": [
+                {
+                    "name": "Día 1",
+                    "exercises": [
+                        {
+                            "name": "Press de hombro",
+                            "rest": 1,
+                            "series": [ 10, 10, 8, 8, 6 ],
+                            "completed": 0
+                        }
+                    ]
+                },
+                {
+                    "name": "Day 2",
+                    "exercises": [
+                        {
+                            "name": "Press de banca",
+                            "rest": 3,
+                            "series": [ 10, 8, 8, 6, 6 ],
+                            "completed": 0
+                        },
+                        {
+                            "name": "Press de hombro",
+                            "rest": 1,
+                            "series": [ 10, 10, 8, 8, 6 ],
+                            "completed": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "completed_sessions": [
+        {
+            "start": 1536429266423,
+            "end": 1536429276568,
+            "table": "Prueba",
+            "session": "Day 1"
+        }
+    ]
+}

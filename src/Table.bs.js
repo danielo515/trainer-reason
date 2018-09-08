@@ -7,6 +7,7 @@ var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Hero$ReasonTrainer = require("./Hero.bs.js");
 var Util$ReasonTrainer = require("./Util.bs.js");
+var Store$ReasonTrainer = require("./Store.bs.js");
 var Session$ReasonTrainer = require("./Session.bs.js");
 
 var component = ReasonReact.reducerComponent("Session");
@@ -49,23 +50,35 @@ function make(table, _) {
           /* initialState */(function () {
               return /* record */[
                       /* session : NotSelected */0,
-                      /* sessions */table[/* sessions */0]
+                      /* sessions */table[/* sessions */0],
+                      /* onFinish */undefined
                     ];
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (action, state) {
               if (action) {
                 var session = action[0];
-                console.log(session);
                 return /* Update */Block.__(0, [/* record */[
                             /* session : Selected */[session],
-                            /* sessions */state[/* sessions */1]
+                            /* sessions */state[/* sessions */1],
+                            /* onFinish */Store$ReasonTrainer.startSession(table[/* name */1], session[/* name */0])
                           ]]);
               } else {
-                return /* Update */Block.__(0, [/* record */[
+                return /* UpdateWithSideEffects */Block.__(2, [
+                          /* record */[
                             /* session : NotSelected */0,
-                            /* sessions */state[/* sessions */1]
-                          ]]);
+                            /* sessions */state[/* sessions */1],
+                            /* onFinish */state[/* onFinish */2]
+                          ],
+                          (function () {
+                              var match = state[/* onFinish */2];
+                              if (match !== undefined) {
+                                return Curry._1(match, /* () */0);
+                              } else {
+                                return /* () */0;
+                              }
+                            })
+                        ]);
               }
             }),
           /* jsElementWrapped */component[/* jsElementWrapped */13]
