@@ -117,7 +117,12 @@ let make = (~render, _children) => {
       | AddTable(table) =>
         UpdateWithSideEffects(
           {...state, tables: [table, ...state.tables]},
-          (self => saveState(self.state)),
+          (
+            self => {
+              saveState(self.state);
+              self.send(ClearTable);
+            }
+          ),
         )
       | SelectTable(table) => Update({...state, table: Some(table)})
       | StartSession((tableName, sessionName)) =>

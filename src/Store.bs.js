@@ -215,7 +215,8 @@ function make(render, _) {
                                   /* finishSession */state[/* finishSession */4]
                                 ],
                                 (function (self) {
-                                    return saveState(self[/* state */1]);
+                                    saveState(self[/* state */1]);
+                                    return Curry._1(self[/* send */3], /* ClearTable */1);
                                   })
                               ]);
                   
