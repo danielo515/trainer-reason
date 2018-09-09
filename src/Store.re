@@ -5,8 +5,13 @@ type session = {
   _end: float,
 };
 
+type table =
+  | None
+  | Some(Trainer.table)
+  | Creating;
+
 type state = {
-  table: option(Trainer.table),
+  table,
   tables: list(Trainer.table),
   editing: bool,
   completed_sessions: list(session),
@@ -22,7 +27,9 @@ type action =
   | StartSession(sessionId)
   | FinishSession
   | SelectTable(Trainer.table)
-  | ClearTable;
+  | ClearTable
+  | CreateTable
+  | AddTable(Trainer.table);
 
 let startSession = (table, session) => {
   let newSession = {table, session, start: Js.Date.now(), _end: 0.0};
@@ -106,6 +113,12 @@ let make = (~render, _children) => {
     ReasonReact.(
       switch (action) {
       | ClearTable => Update({...state, table: None})
+      | CreateTable => Update({...state, table: Creating})
+      | AddTable(table) =>
+        UpdateWithSideEffects(
+          {...state, tables: [table, ...state.tables]},
+          (self => saveState(self.state)),
+        )
       | SelectTable(table) => Update({...state, table: Some(table)})
       | StartSession((tableName, sessionName)) =>
         Update({
@@ -114,7 +127,8 @@ let make = (~render, _children) => {
         })
       | FinishSession =>
         switch (state.finishSession) {
-        | Some(fn) => UpdateWithSideEffects(fn(state), self => saveState(self.state))
+        | Some(fn) =>
+          UpdateWithSideEffects(fn(state), (self => saveState(self.state)))
         | None => NoUpdate
         }
       }

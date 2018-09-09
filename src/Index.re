@@ -14,8 +14,12 @@ let listTables = (tables, onClick) =>
 let render = (state: Store.state, send) =>
   switch (state.table) {
   | None =>
-    listTables(state.tables, table =>  Store.SelectTable(table)  |> send )
+    <div>
+    (listTables(state.tables, table =>  Store.SelectTable(table)  |> send ))
+    <Button text="+" onClick=(_=>send(Store.CreateTable))/>
+    </div>
   | Some(table) => <Table table send />
+  | Creating => <CreateTable send/>
   };
 
 ReactDOMRe.renderToElementWithId(<Store render />, "index1");

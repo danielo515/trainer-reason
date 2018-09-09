@@ -96,7 +96,7 @@ function state$1(str) {
           return Json_decode.list(partial_arg, param);
         }), str);
   return /* record */[
-          /* table */undefined,
+          /* table : None */0,
           /* tables */tables,
           /* editing */false,
           /* completed_sessions */Json_decode.field("completed_sessions", (function (param) {
@@ -112,7 +112,7 @@ var Decode = /* module */[
 ];
 
 var initialState = /* record */[
-  /* table */undefined,
+  /* table : None */0,
   /* tables : [] */0,
   /* editing */false,
   /* completed_sessions : [] */0,
@@ -152,44 +152,74 @@ function make(render, _) {
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (action, state) {
               if (typeof action === "number") {
-                if (action === 0) {
-                  var match = state[/* finishSession */4];
-                  if (match !== undefined) {
-                    return /* UpdateWithSideEffects */Block.__(2, [
-                              Curry._1(match, state),
-                              (function (self) {
-                                  return saveState(self[/* state */1]);
-                                })
-                            ]);
-                  } else {
-                    return /* NoUpdate */0;
-                  }
-                } else {
-                  return /* Update */Block.__(0, [/* record */[
-                              /* table */undefined,
-                              /* tables */state[/* tables */1],
-                              /* editing */state[/* editing */2],
-                              /* completed_sessions */state[/* completed_sessions */3],
-                              /* finishSession */state[/* finishSession */4]
-                            ]]);
+                switch (action) {
+                  case 0 : 
+                      var match = state[/* finishSession */4];
+                      if (match !== undefined) {
+                        return /* UpdateWithSideEffects */Block.__(2, [
+                                  Curry._1(match, state),
+                                  (function (self) {
+                                      return saveState(self[/* state */1]);
+                                    })
+                                ]);
+                      } else {
+                        return /* NoUpdate */0;
+                      }
+                  case 1 : 
+                      return /* Update */Block.__(0, [/* record */[
+                                  /* table : None */0,
+                                  /* tables */state[/* tables */1],
+                                  /* editing */state[/* editing */2],
+                                  /* completed_sessions */state[/* completed_sessions */3],
+                                  /* finishSession */state[/* finishSession */4]
+                                ]]);
+                  case 2 : 
+                      return /* Update */Block.__(0, [/* record */[
+                                  /* table : Creating */1,
+                                  /* tables */state[/* tables */1],
+                                  /* editing */state[/* editing */2],
+                                  /* completed_sessions */state[/* completed_sessions */3],
+                                  /* finishSession */state[/* finishSession */4]
+                                ]]);
+                  
                 }
-              } else if (action.tag) {
-                return /* Update */Block.__(0, [/* record */[
-                            /* table */action[0],
-                            /* tables */state[/* tables */1],
-                            /* editing */state[/* editing */2],
-                            /* completed_sessions */state[/* completed_sessions */3],
-                            /* finishSession */state[/* finishSession */4]
-                          ]]);
               } else {
-                var match$1 = action[0];
-                return /* Update */Block.__(0, [/* record */[
-                            /* table */state[/* table */0],
-                            /* tables */state[/* tables */1],
-                            /* editing */state[/* editing */2],
-                            /* completed_sessions */state[/* completed_sessions */3],
-                            /* finishSession */startSession(match$1[0], match$1[1])
-                          ]]);
+                switch (action.tag | 0) {
+                  case 0 : 
+                      var match$1 = action[0];
+                      return /* Update */Block.__(0, [/* record */[
+                                  /* table */state[/* table */0],
+                                  /* tables */state[/* tables */1],
+                                  /* editing */state[/* editing */2],
+                                  /* completed_sessions */state[/* completed_sessions */3],
+                                  /* finishSession */startSession(match$1[0], match$1[1])
+                                ]]);
+                  case 1 : 
+                      return /* Update */Block.__(0, [/* record */[
+                                  /* table : Some */[action[0]],
+                                  /* tables */state[/* tables */1],
+                                  /* editing */state[/* editing */2],
+                                  /* completed_sessions */state[/* completed_sessions */3],
+                                  /* finishSession */state[/* finishSession */4]
+                                ]]);
+                  case 2 : 
+                      return /* UpdateWithSideEffects */Block.__(2, [
+                                /* record */[
+                                  /* table */state[/* table */0],
+                                  /* tables : :: */[
+                                    action[0],
+                                    state[/* tables */1]
+                                  ],
+                                  /* editing */state[/* editing */2],
+                                  /* completed_sessions */state[/* completed_sessions */3],
+                                  /* finishSession */state[/* finishSession */4]
+                                ],
+                                (function (self) {
+                                    return saveState(self[/* state */1]);
+                                  })
+                              ]);
+                  
+                }
               }
             }),
           /* jsElementWrapped */component[/* jsElementWrapped */13]
