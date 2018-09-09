@@ -62,6 +62,6 @@ let make =
         |> Array.of_list
         |> ReasonReact.array
       }
-      <Button text="+Exercise" onClick={_ => send(Submit)} />
+      <Button text="Save exercise" onClick={_ => send(Submit)} />
     </div>,
 };

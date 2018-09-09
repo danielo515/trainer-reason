@@ -32,7 +32,7 @@ let make = (~onSubmit, _children): ReasonReact.component(state,'a,action) => {
         onChange={value => ssend(UpdateName(value))}
       />
       <CreateExercise onSubmit={exercise => ssend(AddExercise(exercise))} />
-      <Button text="Save session" onClick=(_=> ssend(Submit))/>
       (listExercises(state.exercises))
+      <Button text="Save session" onClick=(_=> ssend(Submit))/>
     </div>,
 };

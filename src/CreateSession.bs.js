@@ -44,9 +44,9 @@ function make(onSubmit, _) {
                                     return Curry._1(ssend, /* UpdateName */Block.__(0, [value]));
                                   }), /* Text */0, state[/* name */0], "Session Name", /* array */[])), ReasonReact.element(undefined, undefined, CreateExercise$ReasonTrainer.make((function (exercise) {
                                     return Curry._1(ssend, /* AddExercise */Block.__(1, [exercise]));
-                                  }), /* array */[])), ReasonReact.element(undefined, undefined, Button$ReasonTrainer.make((function () {
+                                  }), /* array */[])), listExercises(state[/* exercises */1]), ReasonReact.element(undefined, undefined, Button$ReasonTrainer.make((function () {
                                     return Curry._1(ssend, /* Submit */0);
-                                  }), undefined, "Save session", undefined, /* array */[])), listExercises(state[/* exercises */1]));
+                                  }), undefined, "Save session", undefined, /* array */[])));
             }),
           /* initialState */(function () {
               return /* record */[

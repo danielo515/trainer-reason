@@ -64,7 +64,7 @@ function make(onSubmit, _) {
                                                     }), /* Number */1, String(serie), undefined, /* array */[]));
                                   }), state[/* series */1])), ReasonReact.element(undefined, undefined, Button$ReasonTrainer.make((function () {
                                     return Curry._1(send, /* Submit */1);
-                                  }), undefined, "+Exercise", undefined, /* array */[])));
+                                  }), undefined, "Save exercise", undefined, /* array */[])));
             }),
           /* initialState */(function () {
               return /* record */[
